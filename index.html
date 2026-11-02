@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HUD & Menus - Estilo Moderno</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="theme-dark">
+
+  <!-- ========================================== -->
+  <!-- CENÁRIO DE FUNDO 3D INTERATIVO (MINECRAFT) -->
+  <!-- ========================================== -->
+  <div id="game-viewport" class="game-viewport">
+    <canvas id="world-canvas"></canvas>
+    <div class="crosshair" id="crosshair"></div>
+
+    <!-- Controles Flutuantes da Simulação do Jogo -->
+    <div class="simulation-controls">
+      <button class="sim-btn" id="btn-toggle-bg" title="Alternar Modo de Fundo (Mundo 3D / Gradiente Escuro)">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.28 19.58 10.59 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+        <span>Fundo</span>
+      </button>
+      <button class="sim-btn" id="btn-damage" title="Testar Dano (-20 HP)">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>-20 HP</span>
+      </button>
+      <button class="sim-btn" id="btn-heal" title="Testar Cura (+20 HP)">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <span>+20 HP</span>
+      </button>
+      <button class="sim-btn" id="btn-open-exporter" title="Ver Códigos YAML do Ultimate UI">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        <span>Ultimate UI YAML</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- HUD PRINCIPAL (SOBREPOSTO NA TELA)        -->
+  <!-- ========================================== -->
+  <div id="hud-root" class="hud-root">
+
+    <!-- BARRA SUPERIOR ESQUERDA (TOP BAR ESTILO ROBLOX) -->
+    <div class="top-bar-left">
+      <div class="pill-bar">
+        <!-- Botão Menu Principal (ESC) - Ícone geométrico limpo sem logo -->
+        <button class="pill-btn" id="hud-btn-menu" title="Menu Principal [ESC]">
+          <svg viewBox="0 0 24 24" class="svg-icon">
+            <line x1="4" y1="6" x2="20" y2="6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="4" y1="18" x2="20" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <!-- Divisor elegante -->
+        <div class="pill-divider"></div>
+
+        <!-- Botão Chat -->
+        <button class="pill-btn" id="hud-btn-chat" title="Chat do Jogo [T]">
+          <svg viewBox="0 0 24 24" class="svg-icon">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/>
+          </svg>
+          <span class="badge-dot" id="chat-unread-dot"></span>
+        </button>
+
+        <!-- Botão Lista de Jogadores (Tab) -->
+        <button class="pill-btn" id="hud-btn-leaderboard" title="Lista de Jogadores [TAB]">
+          <svg viewBox="0 0 24 24" class="svg-icon">
+            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+          </svg>
+        </button>
+
+        <!-- Botão Avatar Editor -->
+        <button class="pill-btn" id="hud-btn-avatar" title="Personalizar Avatar">
+          <svg viewBox="0 0 24 24" class="svg-icon">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </button>
+
+        <!-- Botão Menu Início (Home) -->
+        <button class="pill-btn" id="hud-btn-home" title="Menu de Início (Modos)">
+          <svg viewBox="0 0 24 24" class="svg-icon">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
+        </button>
+
+        <!-- Botão Mochila / Mochila Hotbar -->
+        <button class="pill-btn" id="hud-btn-backpack" title="Mochila / Inventário [E]">
+          <svg viewBox="0 0 24 24" class="svg-icon">
+            <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+          </svg>
+        </button>
+
+        <!-- Botão Som / Efeitos de Áudio -->
+        <button class="pill-btn" id="hud-btn-sound" title="Alternar Sons da Interface">
+          <svg viewBox="0 0 24 24" class="svg-icon" id="sound-icon">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- BARRA SUPERIOR DIREITA (STATUS & VIDA) -->
+    <div class="top-bar-right">
+      <div class="stats-pill">
+        <!-- Indicador de Vida estilo Roblox -->
+        <div class="health-container" id="health-box">
+          <div class="health-bar-wrapper">
+            <div class="health-bar-fill" id="health-fill" style="width: 100%;"></div>
+          </div>
+          <span class="health-text" id="health-label">100 / 100</span>
+        </div>
+
+        <div class="pill-divider"></div>
+
+        <!-- Moedas / Dinheiro -->
+        <div class="stat-item" title="Moedas">
+          <svg viewBox="0 0 24 24" class="coin-icon">
+            <circle cx="12" cy="12" r="9" fill="#FFC107" stroke="#FFA000" stroke-width="1.5"/>
+            <text x="12" y="16" font-size="11" font-weight="bold" fill="#5D4037" text-anchor="middle">$</text>
+          </svg>
+          <span class="stat-value" id="coins-count">1.450</span>
+        </div>
+
+        <!-- Ping e FPS -->
+        <div class="stat-item ping-tag" title="Performance">
+          <span class="ping-dot"></span>
+          <span class="stat-value" id="ping-text">24ms</span>
+        </div>
+
+        <div class="pill-divider"></div>
+
+        <!-- Mini Perfil do Jogador -->
+        <div class="player-profile-mini" id="player-profile-pill" title="Meu Perfil">
+          <div class="mini-avatar" id="mini-avatar-face">
+            <div class="mini-head"></div>
+          </div>
+          <span class="player-nickname">@Jogador</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT DO JOGO (INTERATIVO) -->
+    <div class="chat-container" id="chat-overlay">
+      <div class="chat-header">
+        <div class="chat-tabs">
+          <button class="chat-tab active" data-channel="all">Geral</button>
+          <button class="chat-tab" data-channel="team">Equipe</button>
+          <button class="chat-tab" data-channel="system">Sistema</button>
+        </div>
+        <button class="chat-close" id="btn-close-chat" title="Fechar Chat">✕</button>
+      </div>
+      <div class="chat-messages" id="chat-messages-list">
+        <div class="chat-msg system">
+          <span class="msg-badge system">SISTEMA</span>
+          <span class="msg-content">Servidor conectado. Ultimate UI carregado com sucesso.</span>
+        </div>
+        <div class="chat-msg">
+          <span class="msg-sender vip">[VIP] Alex:</span>
+          <span class="msg-content">Alguém quer ir PvP agora?</span>
+        </div>
+        <div class="chat-msg">
+          <span class="msg-sender admin">[Admin] Steve:</span>
+          <span class="msg-content">Bem-vindos ao servidor! Pressione ESC para abrir o menu.</span>
+        </div>
+      </div>
+      <form class="chat-input-row" id="chat-form">
+        <input type="text" id="chat-input" placeholder="Pressione Enter para conversar..." autocomplete="off">
+        <button type="submit" class="chat-send-btn" title="Enviar">
+          <svg viewBox="0 0 24 24" class="svg-icon"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- LEADERBOARD / LISTA DE JOGADORES (TAB) -->
+    <div class="leaderboard-container" id="leaderboard-overlay">
+      <div class="leaderboard-header">
+        <span>Jogadores Online (8)</span>
+        <button class="chat-close" id="btn-close-leaderboard">✕</button>
+      </div>
+      <div class="leaderboard-table-header">
+        <span class="col-name">Jogador</span>
+        <span class="col-rank">Cargo</span>
+        <span class="col-ping">Ping</span>
+        <span class="col-act">Ação</span>
+      </div>
+      <div class="leaderboard-rows" id="leaderboard-rows">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </div>
+
+    <!-- HOTBAR INFERIOR (1-9 SLOTS ESTILO ROBLOX / MINECRAFT) -->
+    <div class="hotbar-container" id="hotbar-container">
+      <div class="hotbar-slots" id="hotbar-slots">
+        <!-- 9 slots gerados dinamicamente via JS -->
+      </div>
+      <div class="item-selected-tooltip" id="item-tooltip">Espada de Diamante</div>
+    </div>
+
+    <!-- CONTROLES MOBILE / TOUCH (SE ATIVADO OU EM DISPOSITIVOS MÓVEIS) -->
+    <div class="mobile-touch-layer" id="mobile-controls">
+      <div class="virtual-joystick" id="virtual-dpad">
+        <div class="dpad-stick"></div>
+      </div>
+      <div class="virtual-actions">
+        <button class="mobile-btn jump-btn" id="mobile-jump-btn">PULAR</button>
+        <button class="mobile-btn action-btn" id="mobile-interact-btn">USAR</button>
+      </div>
+    </div>
+
+  </div> <!-- Fim HUD Root -->
+
+  <!-- ========================================== -->
+  <!-- MODAL PRINCIPAL: MENU ESC ESTILO ROBLOX    -->
+  <!-- ========================================== -->
+  <div class="modal-backdrop" id="modal-escape">
+    <div class="escape-window">
+      <!-- Abas Superiores do Menu ESC -->
+      <div class="escape-tabs-bar">
+        <div class="escape-tabs-left">
+          <button class="esc-tab active" data-tab="tab-home">
+            <svg viewBox="0 0 24 24" class="tab-icon"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Início</span>
+          </button>
+          <button class="esc-tab" data-tab="tab-players">
+            <svg viewBox="0 0 24 24" class="tab-icon"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span>Jogadores</span>
+          </button>
+          <button class="esc-tab" data-tab="tab-avatar-inner">
+            <svg viewBox="0 0 24 24" class="tab-icon"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Avatar</span>
+          </button>
+          <button class="esc-tab" data-tab="tab-settings">
+            <svg viewBox="0 0 24 24" class="tab-icon"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            <span>Configurações</span>
+          </button>
+          <button class="esc-tab" data-tab="tab-help">
+            <svg viewBox="0 0 24 24" class="tab-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+            <span>Ajuda</span>
+          </button>
+        </div>
+        <button class="close-x-btn" id="btn-close-escape" title="Fechar Menu">✕</button>
+      </div>
+
+      <!-- Área de Conteúdo das Abas -->
+      <div class="escape-content-body">
+        
+        <!-- ABA 1: INÍCIO (HOME) -->
+        <div class="tab-pane active" id="tab-home">
+          <div class="home-hero-card">
+            <div class="hero-left">
+              <span class="hero-tag">EXPERIÊNCIA PRINCIPAL</span>
+              <h2 class="hero-title">Aventura no Servidor</h2>
+              <p class="hero-desc">Explore biomas místicos, monte sua base e enfrente desafios com amigos em tempo real.</p>
+              <div class="hero-buttons">
+                <button class="btn-primary" id="home-resume-btn">Continuar Jogando</button>
+                <button class="btn-secondary" id="home-open-avatar-btn">Mudar Visual</button>
+              </div>
+            </div>
+            <div class="hero-stats-box">
+              <div class="mini-stat">
+                <span class="label">Jogadores Conectados</span>
+                <span class="val">142 / 200</span>
+              </div>
+              <div class="mini-stat">
+                <span class="label">Seu Nível</span>
+                <span class="val">Nível 28</span>
+              </div>
+              <div class="mini-stat">
+                <span class="label">Status do Servidor</span>
+                <span class="val text-success">Online (20 TPS)</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="section-heading">Modos Rápidos & Minijogos</h3>
+          <div class="game-modes-grid">
+            <div class="mode-card">
+              <div class="mode-badge">POPULAR</div>
+              <h4>BedWars 4v4</h4>
+              <p>Proteja sua cama e derrote os times rivais nas ilhas celestes.</p>
+              <button class="mode-play-btn" onclick="app.showToast('Entrando em BedWars 4v4...')">Entrar</button>
+            </div>
+            <div class="mode-card">
+              <div class="mode-badge">COMPETITIVO</div>
+              <h4>SkyWars Solo</h4>
+              <p>Batalha royale nas alturas. Último sobrevivente vence.</p>
+              <button class="mode-play-btn" onclick="app.showToast('Entrando em SkyWars Solo...')">Entrar</button>
+            </div>
+            <div class="mode-card">
+              <div class="mode-badge">RPG</div>
+              <h4>Sobrevivência RankUP</h4>
+              <p>Minere, faça comércio, evolua patentes e construa seu império.</p>
+              <button class="mode-play-btn" onclick="app.showToast('Entrando em Sobrevivência RankUP...')">Entrar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA 2: JOGADORES -->
+        <div class="tab-pane" id="tab-players">
+          <div class="players-pane-header">
+            <h3>Jogadores no Servidor</h3>
+            <span class="count-badge">8 Online</span>
+          </div>
+          <div class="players-full-table">
+            <div class="p-table-head">
+              <span class="th-user">Jogador</span>
+              <span class="th-rank">Patente</span>
+              <span class="th-ping">Latência</span>
+              <span class="th-actions">Interagir</span>
+            </div>
+            <div class="p-table-body" id="full-players-list">
+              <!-- Preenchido via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA 3: AVATAR INTEGRADO -->
+        <div class="tab-pane" id="tab-avatar-inner">
+          <div class="avatar-editor-layout">
+            <!-- Coluna Esquerda: Preview do Personagem -->
+            <div class="avatar-preview-col">
+              <div class="avatar-canvas-box">
+                <canvas id="avatar-preview-canvas" width="280" height="360"></canvas>
+                <div class="avatar-rotate-controls">
+                  <button class="rot-btn" id="btn-rot-left" title="Girar Esquerda">↺</button>
+                  <button class="rot-btn" id="btn-rot-reset" title="Restaurar Visão">Frente</button>
+                  <button class="rot-btn" id="btn-rot-right" title="Girar Direita">↻</button>
+                </div>
+              </div>
+              <div class="avatar-quick-actions">
+                <button class="btn-subtle" id="btn-avatar-reset">Restaurar Padrão</button>
+                <button class="btn-primary" id="btn-avatar-save">Salvar Visual</button>
+              </div>
+            </div>
+
+            <!-- Coluna Direita: Seleção de Categorias e Itens -->
+            <div class="avatar-options-col">
+              <div class="avatar-subtabs">
+                <button class="subtab active" data-subtab="sub-skin">Cor da Pele</button>
+                <button class="subtab" data-subtab="sub-clothes">Roupas</button>
+                <button class="subtab" data-subtab="sub-hats">Chapéus & Cabelos</button>
+                <button class="subtab" data-subtab="sub-accessories">Acessórios</button>
+                <button class="subtab" data-subtab="sub-emotes">Emotes</button>
+              </div>
+
+              <!-- Subaba: Cor da Pele (Paleta Clássica estilo Roblox) -->
+              <div class="subtab-pane active" id="sub-skin">
+                <p class="opt-desc">Escolha a cor base do seu avatar:</p>
+                <div class="color-palette-grid" id="skin-colors-grid">
+                  <!-- Gerado via JS: cores clássicas -->
+                </div>
+              </div>
+
+              <!-- Subaba: Roupas -->
+              <div class="subtab-pane" id="sub-clothes">
+                <p class="opt-desc">Camisas e trajes estilizados:</p>
+                <div class="item-selection-grid" id="clothes-grid">
+                  <!-- Preenchido via JS -->
+                </div>
+              </div>
+
+              <!-- Subaba: Chapéus -->
+              <div class="subtab-pane" id="sub-hats">
+                <p class="opt-desc">Chapéus, toucas e cortes de cabelo:</p>
+                <div class="item-selection-grid" id="hats-grid">
+                  <!-- Preenchido via JS -->
+                </div>
+              </div>
+
+              <!-- Subaba: Acessórios -->
+              <div class="subtab-pane" id="sub-accessories">
+                <p class="opt-desc">Itens para costas e cintura:</p>
+                <div class="item-selection-grid" id="accessories-grid">
+                  <!-- Preenchido via JS -->
+                </div>
+              </div>
+
+              <!-- Subaba: Emotes -->
+              <div class="subtab-pane" id="sub-emotes">
+                <p class="opt-desc">Clique para animar o personagem:</p>
+                <div class="emotes-selection-grid" id="emotes-grid">
+                  <!-- Preenchido via JS -->
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA 4: CONFIGURAÇÕES ESTILO ROBLOX -->
+        <div class="tab-pane" id="tab-settings">
+          <div class="settings-scroll-list">
+            <!-- Volume Geral -->
+            <div class="setting-row">
+              <div class="setting-info">
+                <span class="setting-title">Volume Geral</span>
+                <span class="setting-subtitle">Efeitos sonoros e música de fundo</span>
+              </div>
+              <div class="setting-control slider-control">
+                <input type="range" min="0" max="100" value="75" id="slider-volume">
+                <span class="slider-val" id="val-volume">75%</span>
+              </div>
+            </div>
+
+            <!-- Qualidade Gráfica com 10 bolinhas estilo Roblox -->
+            <div class="setting-row">
+              <div class="setting-info">
+                <span class="setting-title">Qualidade Gráfica</span>
+                <span class="setting-subtitle">Ajuste de renderização e sombras (1 a 10)</span>
+              </div>
+              <div class="setting-control graphics-dots-control">
+                <div class="dots-wrapper" id="graphics-dots">
+                  <div class="dot active" data-level="1"></div>
+                  <div class="dot active" data-level="2"></div>
+                  <div class="dot active" data-level="3"></div>
+                  <div class="dot active" data-level="4"></div>
+                  <div class="dot active" data-level="5"></div>
+                  <div class="dot active" data-level="6"></div>
+                  <div class="dot active" data-level="7"></div>
+                  <div class="dot active" data-level="8"></div>
+                  <div class="dot" data-level="9"></div>
+                  <div class="dot" data-level="10"></div>
+                </div>
+                <span class="dots-label" id="val-graphics">8 / 10</span>
+              </div>
+            </div>
+
+            <!-- Modo de Câmera -->
+            <div class="setting-row">
+              <div class="setting-info">
+                <span class="setting-title">Modo de Câmera</span>
+                <span class="setting-subtitle">Comportamento do ponto de vista</span>
+              </div>
+              <div class="setting-control">
+                <select class="custom-select" id="select-camera">
+                  <option value="classic">Clássico (Terceira Pessoa)</option>
+                  <option value="follow">Seguir Suavemente</option>
+                  <option value="first_person">Primeira Pessoa</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Shift Lock Switch -->
+            <div class="setting-row">
+              <div class="setting-info">
+                <span class="setting-title">Shift Lock Switch</span>
+                <span class="setting-subtitle">Trava o cursor e gira a visão com o movimento</span>
+              </div>
+              <div class="setting-control">
+                <label class="switch-toggle">
+                  <input type="checkbox" id="toggle-shift-lock" checked>
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Campo de Visão (FOV) -->
+            <div class="setting-row">
+              <div class="setting-info">
+                <span class="setting-title">Campo de Visão (FOV)</span>
+                <span class="setting-subtitle">Ângulo de visão do jogador</span>
+              </div>
+              <div class="setting-control slider-control">
+                <input type="range" min="60" max="110" value="80" id="slider-fov">
+                <span class="slider-val" id="val-fov">80°</span>
+              </div>
+            </div>
+
+            <!-- Tamanho da Interface (HUD Scale) -->
+            <div class="setting-row">
+              <div class="setting-info">
+                <span class="setting-title">Escala da Interface</span>
+                <span class="setting-subtitle">Ajuste de proporção para telas pequenas</span>
+              </div>
+              <div class="setting-control">
+                <select class="custom-select" id="select-hud-scale">
+                  <option value="normal">Normal (Padrão)</option>
+                  <option value="compact">Compacto</option>
+                  <option value="large">Grande</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ABA 5: AJUDA / CONTROLES -->
+        <div class="tab-pane" id="tab-help">
+          <div class="help-content-box">
+            <h3>Guia de Teclas & Atalhos</h3>
+            <div class="keybinds-grid">
+              <div class="key-card">
+                <div class="key-badge">W A S D</div>
+                <div class="key-desc">Mover Personagem</div>
+              </div>
+              <div class="key-card">
+                <div class="key-badge">ESPAÇO</div>
+                <div class="key-desc">Pular</div>
+              </div>
+              <div class="key-card">
+                <div class="key-badge">1 - 9</div>
+                <div class="key-desc">Selecionar Itens na Hotbar</div>
+              </div>
+              <div class="key-card">
+                <div class="key-badge">ESC</div>
+                <div class="key-desc">Abrir / Fechar Menu</div>
+              </div>
+              <div class="key-card">
+                <div class="key-badge">TAB</div>
+                <div class="key-desc">Mostrar Lista de Jogadores</div>
+              </div>
+              <div class="key-card">
+                <div class="key-badge">T</div>
+                <div class="key-desc">Abrir Chat</div>
+              </div>
+              <div class="key-card">
+                <div class="key-badge">SHIFT</div>
+                <div class="key-desc">Shift Lock / Correr</div>
+              </div>
+              <div class="key-card">
+                <div class="key-badge">BOTÃO DIR. MOUSE</div>
+                <div class="key-desc">Girar Câmera livremente</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Rodapé de Ações do Menu ESC -->
+      <div class="escape-footer">
+        <button class="footer-btn btn-resume" id="btn-footer-resume">
+          <svg viewBox="0 0 24 24" class="footer-icon"><path d="M8 5v14l11-7z"/></svg>
+          <span>Retomar Jogo</span>
+        </button>
+        <button class="footer-btn btn-reset-char" id="btn-footer-reset">
+          <svg viewBox="0 0 24 24" class="footer-icon"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          <span>Reiniciar Personagem</span>
+        </button>
+        <button class="footer-btn btn-leave" id="btn-footer-leave">
+          <svg viewBox="0 0 24 24" class="footer-icon"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+          <span>Sair do Servidor</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CONFIRMAÇÃO DE REINICIAR PERSONAGEM -->
+  <!-- ========================================== -->
+  <div class="dialog-backdrop" id="dialog-reset">
+    <div class="dialog-box">
+      <h3>Reiniciar Personagem?</h3>
+      <p>Seu personagem será renascido no ponto de spawn inicial.</p>
+      <div class="dialog-actions">
+        <button class="btn-secondary" id="btn-cancel-reset">Cancelar</button>
+        <button class="btn-danger" id="btn-confirm-reset">Reiniciar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: EXPORTADOR DE CÓDIGO ULTIMATE UI    -->
+  <!-- ========================================== -->
+  <div class="modal-backdrop" id="modal-exporter">
+    <div class="exporter-window">
+      <div class="exporter-header">
+        <div class="exp-title">
+          <svg viewBox="0 0 24 24" class="svg-icon"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <span>Arquivos de Configuração Ultimate UI (YAML)</span>
+        </div>
+        <button class="close-x-btn" id="btn-close-exporter">✕</button>
+      </div>
+      <div class="exporter-tabs">
+        <button class="exp-tab active" data-file="hud.yml">hud.yml</button>
+        <button class="exp-tab" data-file="escape_menu.yml">escape_menu.yml</button>
+        <button class="exp-tab" data-file="avatar_menu.yml">avatar_menu.yml</button>
+        <button class="exp-tab" data-file="home_menu.yml">home_menu.yml</button>
+      </div>
+      <div class="exporter-code-area">
+        <pre><code id="yaml-code-display">Carregando código YAML...</code></pre>
+      </div>
+      <div class="exporter-footer">
+        <span class="exp-hint">Compatível com <strong>Ultimate UI</strong> e o editor web oficial (xqedii.dev/ultimateui/editor).</span>
+        <div class="exp-btns">
+          <button class="btn-secondary" id="btn-copy-yaml">Copiar Código</button>
+          <a class="btn-primary" id="btn-download-yaml" download="hud.yml">Baixar Arquivo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-notification" id="toast-notify">
+    <span id="toast-text">Notificação</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
