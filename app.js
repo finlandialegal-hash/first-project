@@ -831,6 +831,12 @@ class RobloxMainMenuApp {
 }`;
 
     try {
+      const mainYmlRes = await fetch('ultimate_ui_configs/roblox_main_menu.yml');
+      if (mainYmlRes.ok) this.projectFiles['roblox_main_menu.yml'] = await mainYmlRes.text();
+
+      const avYmlRes = await fetch('ultimate_ui_configs/roblox_avatar_menu.yml');
+      if (avYmlRes.ok) this.projectFiles['roblox_avatar_menu.yml'] = await avYmlRes.text();
+
       const res = await fetch('ultimate_ui_configs/roblox_menu_project.json');
       if (res.ok) this.projectFiles['roblox_menu_project.json'] = await res.text();
 
@@ -838,7 +844,7 @@ class RobloxMainMenuApp {
       if (ymlRes.ok) this.projectFiles['home_menu.yml'] = await ymlRes.text();
 
       const avRes = await fetch('ultimate_ui_configs/avatar_menu.yml');
-      if (avRes.ok) this.projectFiles['avatar_menu.yml'] = await ymlRes.text();
+      if (avRes.ok) this.projectFiles['avatar_menu.yml'] = await avRes.text();
 
       const hudRes = await fetch('ultimate_ui_configs/hud.yml');
       if (hudRes.ok) this.projectFiles['hud.yml'] = await hudRes.text();
