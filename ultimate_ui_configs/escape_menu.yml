@@ -1,0 +1,203 @@
+# ========================================================
+# Ultimate UI - Menu de Pausa / ESC estilo Roblox
+# Totalmente interativo com abas: Início, Jogadores, Avatar, Configurações, Ajuda
+# ========================================================
+id: "escape_menu"
+title: ""
+type: "cursor_menu"
+cursor: true
+blur_background: true
+animation: "fade_in_scale"
+layout:
+  width: 780
+  height: 520
+  align: "center"
+  background_color: "#16181D"
+  opacity: 0.95
+  border_radius: 16
+  border:
+    color: "#FFFFFF"
+    width: 1
+    opacity: 0.08
+
+navigation_tabs:
+  tab_bar:
+    x: 0
+    y: 0
+    width: 780
+    height: 54
+    background_color: "#1F2228"
+    border_radius_top: 16
+
+  tabs:
+    - id: "tab_home"
+      name: "Início"
+      icon: "textures/ui/icons/home.png"
+      default: true
+    - id: "tab_players"
+      name: "Jogadores"
+      icon: "textures/ui/icons/leaderboard.png"
+    - id: "tab_avatar"
+      name: "Avatar"
+      icon: "textures/ui/icons/avatar.png"
+    - id: "tab_settings"
+      name: "Configurações"
+      icon: "textures/ui/icons/settings.png"
+    - id: "tab_help"
+      name: "Ajuda"
+      icon: "textures/ui/icons/help.png"
+
+# Conteúdo das Abas
+pages:
+  tab_home:
+    elements:
+      server_banner:
+        type: "panel"
+        x: 24
+        y: 74
+        width: 732
+        height: 140
+        border_radius: 12
+        background_gradient: ["#2B3240", "#1C202A"]
+      welcome_text:
+        type: "text"
+        x: 44
+        y: 96
+        font_size: 20
+        font_weight: "bold"
+        color: "#FFFFFF"
+        text: "Bem-vindo de volta, %player_name%!"
+      server_stats:
+        type: "text"
+        x: 44
+        y: 130
+        font_size: 13
+        color: "#A0A5AD"
+        text: "Jogadores Online: %server_online% / %server_max_players%  |  Ping: %player_ping%ms"
+
+      quick_actions_panel:
+        type: "container"
+        x: 24
+        y: 230
+        width: 732
+        height: 190
+        grid:
+          columns: 3
+          gap: 16
+        items:
+          - title: "Editor de Avatar"
+            description: "Personalize roupas, cores e emotes"
+            action: "ultimateui open avatar_menu"
+          - title: "Loja do Servidor"
+            description: "Adquira itens cosméticos e passes"
+            action: "server shop"
+          - title: "Recompensas Diárias"
+            description: "Colete sua recompensa de hoje"
+            action: "rewards claim"
+
+  tab_players:
+    elements:
+      player_table:
+        type: "table"
+        x: 24
+        y: 74
+        width: 732
+        height: 340
+        columns:
+          - header: "Jogador"
+            width: 300
+            content: "%player_name%"
+          - header: "Cargo"
+            width: 140
+            content: "%vault_rank%"
+          - header: "Ping"
+            width: 100
+            content: "%player_ping% ms"
+          - header: "Ações"
+            width: 192
+            actions: ["add_friend", "mute", "report"]
+
+  tab_settings:
+    elements:
+      volume_slider:
+        type: "slider"
+        x: 24
+        y: 84
+        width: 732
+        label: "Volume Geral"
+        min: 0
+        max: 100
+        default: 80
+      graphics_mode:
+        type: "segmented_control"
+        x: 24
+        y: 144
+        width: 732
+        label: "Qualidade Gráfica (Estilo Roblox 1-10)"
+        steps: 10
+        default: 8
+      camera_mode:
+        type: "dropdown"
+        x: 24
+        y: 204
+        width: 732
+        label: "Modo da Câmera"
+        options: ["Padrão Clássico", "Seguir Personagem", "Primeira Pessoa"]
+      shift_lock:
+        type: "toggle"
+        x: 24
+        y: 264
+        width: 732
+        label: "Shift Lock Switch"
+        default: false
+
+  tab_help:
+    elements:
+      keybind_guide:
+        type: "panel"
+        x: 24
+        y: 74
+        width: 732
+        height: 340
+        border_radius: 12
+        content_type: "keybind_map"
+
+# Rodapé de Ações
+footer:
+  container:
+    x: 0
+    y: 450
+    width: 780
+    height: 70
+    background_color: "#131518"
+    border_radius_bottom: 16
+  buttons:
+    btn_resume:
+      type: "button"
+      x: 24
+      y: 462
+      width: 230
+      height: 44
+      text: "Retomar Jogo"
+      style: "primary"
+      action: "ultimateui close"
+
+    btn_reset:
+      type: "button"
+      x: 274
+      y: 462
+      width: 230
+      height: 44
+      text: "Reiniciar Personagem"
+      style: "warning"
+      action: "minecraft:kill"
+
+    btn_leave:
+      type: "button"
+      x: 524
+      y: 462
+      width: 232
+      height: 44
+      text: "Sair do Servidor"
+      style: "danger"
+      action: "server lobby"
