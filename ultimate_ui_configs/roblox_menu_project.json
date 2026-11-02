@@ -1,0 +1,175 @@
+{
+  "project": {
+    "name": "Roblox_Main_Menu_UltimateUI",
+    "version": "1.0.0",
+    "target": "UltimateUI",
+    "editor_compatibility": "xqedii.dev/ultimateui/editor",
+    "author": "Antigravity",
+    "canvas": {
+      "width": 1280,
+      "height": 720,
+      "scale": "responsive",
+      "background": "#0F1115"
+    }
+  },
+  "menus": [
+    {
+      "id": "home_menu",
+      "type": "cursor_menu",
+      "title": "",
+      "layout": {
+        "width": 1280,
+        "height": 720,
+        "align": "center"
+      },
+      "elements": [
+        {
+          "id": "top_nav_bar",
+          "type": "panel",
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 56,
+          "background_color": "#181A20"
+        },
+        {
+          "id": "btn_home",
+          "type": "button",
+          "x": 80,
+          "y": 12,
+          "width": 90,
+          "height": 34,
+          "text": "Início",
+          "action": "view:home"
+        },
+        {
+          "id": "btn_discover",
+          "type": "button",
+          "x": 180,
+          "y": 12,
+          "width": 100,
+          "height": 34,
+          "text": "Descobrir",
+          "action": "view:discover"
+        },
+        {
+          "id": "btn_avatar",
+          "type": "button",
+          "x": 290,
+          "y": 12,
+          "width": 90,
+          "height": 34,
+          "text": "Avatar",
+          "action": "ultimateui open avatar_menu"
+        },
+        {
+          "id": "greeting_banner",
+          "type": "panel",
+          "x": 240,
+          "y": 76,
+          "width": 1000,
+          "height": 110,
+          "border_radius": 14,
+          "background_color": "#1A1F2B"
+        },
+        {
+          "id": "greeting_title",
+          "type": "text",
+          "x": 340,
+          "y": 100,
+          "font_size": 22,
+          "text": "Olá, %player_name%!",
+          "papi": true
+        },
+        {
+          "id": "friends_carousel_label",
+          "type": "text",
+          "x": 240,
+          "y": 210,
+          "font_size": 18,
+          "text": "Amigos Conectados"
+        },
+        {
+          "id": "continue_playing_label",
+          "type": "text",
+          "x": 240,
+          "y": 340,
+          "font_size": 18,
+          "text": "Continuar Jogando"
+        },
+        {
+          "id": "game_card_bedwars",
+          "type": "card",
+          "x": 240,
+          "y": 380,
+          "width": 220,
+          "height": 200,
+          "title": "BedWars 4v4",
+          "play_action": "server connect bedwars"
+        },
+        {
+          "id": "game_card_skywars",
+          "type": "card",
+          "x": 480,
+          "y": 380,
+          "width": 220,
+          "height": 200,
+          "title": "SkyWars Solo",
+          "play_action": "server connect skywars"
+        },
+        {
+          "id": "game_card_survival",
+          "type": "card",
+          "x": 720,
+          "y": 380,
+          "width": 220,
+          "height": 200,
+          "title": "Sobrevivência RPG",
+          "play_action": "server connect survival"
+        }
+      ]
+    },
+    {
+      "id": "avatar_menu",
+      "type": "cursor_menu",
+      "title": "",
+      "layout": {
+        "width": 1280,
+        "height": 720,
+        "align": "center"
+      },
+      "elements": [
+        {
+          "id": "avatar_3d_viewport",
+          "type": "character_view_3d",
+          "x": 240,
+          "y": 90,
+          "width": 380,
+          "height": 520,
+          "rotate_on_drag": true
+        },
+        {
+          "id": "skin_palette_grid",
+          "type": "color_picker_grid",
+          "x": 650,
+          "y": 140,
+          "width": 580,
+          "height": 450,
+          "columns": 6,
+          "colors": [
+            "#E5A00D",
+            "#E8B88A",
+            "#D29C6E",
+            "#A56A44",
+            "#0D69AC",
+            "#C4281C",
+            "#27462D",
+            "#6B327C",
+            "#F2F3F3",
+            "#1B2A35"
+          ]
+        }
+      ]
+    }
+  ]
+}
