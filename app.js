@@ -1,27 +1,25 @@
 /**
  * ========================================================
- * APLICAÇÃO PRINCIPAL: HUD & MENUS ESTILO ROBLOX
- * Para Ultimate UI (Minecraft) e Visualização Web
- * Sem logos, títulos ou marcas registradas protegidas
+ * APLICAÇÃO: MENU PRINCIPAL ESTILO ROBLOX (CLIENT / APP HUB)
+ * Projetado para Ultimate UI (Minecraft) e xqedii.dev/ultimateui/editor
+ * Sem marcas registradas, títulos fixos ou logotipos protegidos
  * ========================================================
  */
 
-class RobloxStyleApp {
+class RobloxMainMenuApp {
   constructor() {
+    this.currentView = 'view-home';
+    this.activeStudioTab = 'tab-skin';
     this.soundEnabled = true;
     this.audioCtx = null;
-    this.health = 100;
-    this.maxHealth = 100;
-    this.activeSlot = 0;
-    this.activeEscTab = 'tab-home';
-    this.activeAvatarSubtab = 'sub-skin';
-    this.currentChatChannel = 'all';
+    this.searchQuery = '';
+    this.selectedCategory = 'all';
 
     // Estado do Avatar
     this.avatarState = {
-      skinColor: '#E5A00D', // Amarelo clássico
-      torsoColor: '#0D69AC', // Azul clássico
-      legColor: '#27462D',   // Verde clássico
+      skinColor: '#E5A00D', // Classic Yellow
+      torsoColor: '#0D69AC', // Classic Blue
+      legColor: '#27462D',   // Classic Green
       hat: 'hair_classic',
       shirt: 'shirt_casual',
       accessory: 'none',
@@ -32,175 +30,112 @@ class RobloxStyleApp {
       emoteFrame: 0
     };
 
-    // Hotbar Itens
-    this.hotbarItems = [
-      { id: 1, name: 'Espada Lendária', icon: '⚔️' },
-      { id: 2, name: 'Picareta de Diamante', icon: '⛏️' },
-      { id: 3, name: 'Arco Encantado', icon: '🏹' },
-      { id: 4, name: 'Maçã Dourada', icon: '🍏' },
-      { id: 5, name: 'Poção de Agilidade', icon: '🧪' },
-      { id: 6, name: 'Bloco de Ouro', icon: '🧱' },
-      { id: 7, name: 'Gancho Retrátil', icon: '🪝' },
-      { id: 8, name: 'Bússola Mágica', icon: '🧭' },
-      { id: 9, name: 'Livro de Emotes', icon: '📖' }
+    // Amigos Online Simulados
+    this.friendsList = [
+      { name: 'Alex_Master', icon: '🤠', status: 'online', game: 'BedWars 4v4', color: '#D97706' },
+      { name: 'Steve_Gamer', icon: '⚔️', status: 'online', game: 'Sobrevivência RPG', color: '#2563EB' },
+      { name: 'PixelHero', icon: '🛡️', status: 'online', game: 'SkyWars Solo', color: '#059669' },
+      { name: 'DiamondKnight', icon: '👑', status: 'online', game: 'Murder Mystery', color: '#7C3AED' },
+      { name: 'BlockBuilder99', icon: '🧱', status: 'online', game: 'Construção Criativa', color: '#DB2777' },
+      { name: 'ShadowMiner', icon: '⛏️', status: 'online', game: 'RankUP Miner', color: '#4B5563' },
+      { name: 'CraftyNinja', icon: '🥷', status: 'online', game: 'Parkour Infinito', color: '#111827' },
+      { name: 'GoldenApple', icon: '🍏', status: 'online', game: 'Arena PvP', color: '#F59E0B' }
     ];
 
-    // Jogadores Online Simulados
-    this.players = [
-      { name: 'Steve_Gamer', rank: 'admin', ping: 18, level: 99 },
-      { name: 'Alex_Master', rank: 'vip', ping: 24, level: 65 },
-      { name: 'Jogador (Você)', rank: 'member', ping: 22, level: 28, isSelf: true },
-      { name: 'Notch_Fan', rank: 'vip', ping: 35, level: 42 },
-      { name: 'BlockBuilder99', rank: 'member', ping: 48, level: 19 },
-      { name: 'PixelHero', rank: 'member', ping: 62, level: 31 },
-      { name: 'DiamondKnight', rank: 'vip', ping: 29, level: 53 },
-      { name: 'ShadowMiner', rank: 'member', ping: 75, level: 12 }
+    // Jogos / Experiências do Catálogo
+    this.gamesList = [
+      {
+        id: 'survival_rpg',
+        title: 'Sobrevivência RPG: Reinos',
+        category: 'survival',
+        icon: '🌲',
+        artBg: 'linear-gradient(135deg, #065F46, #047857)',
+        rating: '96%',
+        players: '1.4K',
+        description: 'Explore masmorras perigosas, colete relíquias e evolua seu personagem.'
+      },
+      {
+        id: 'bedwars_4v4',
+        title: 'BedWars 4v4: Batalha Celeste',
+        category: 'pvp',
+        icon: '🛏️',
+        artBg: 'linear-gradient(135deg, #B91C1C, #991B1B)',
+        rating: '94%',
+        players: '2.8K',
+        description: 'Defenda sua cama com blocos e vença as ilhas rivais com seu esquadrão.'
+      },
+      {
+        id: 'skywars_solo',
+        title: 'SkyWars Solo: Ilhas Flutuantes',
+        category: 'pvp',
+        icon: '⚔️',
+        artBg: 'linear-gradient(135deg, #1E40AF, #1D4ED8)',
+        rating: '92%',
+        players: '890',
+        description: 'Batalha royale no céu. Abra baús rápidos e seja o último sobrevivente.'
+      },
+      {
+        id: 'murder_mystery',
+        title: 'Murder Mystery: Mansão Sombria',
+        category: 'pvp',
+        icon: '🔪',
+        artBg: 'linear-gradient(135deg, #581C87, #6B21A8)',
+        rating: '95%',
+        players: '1.1K',
+        description: 'Inocentes tentam sobreviver enquanto o Detetive caça o Assassino oculto.'
+      },
+      {
+        id: 'rankup_classic',
+        title: 'RankUP Clássico: Economia',
+        category: 'rpg',
+        icon: '⛏️',
+        artBg: 'linear-gradient(135deg, #92400E, #B45309)',
+        rating: '91%',
+        players: '650',
+        description: 'Minere minérios raros, venda na bolsa de valores e desbloqueie patentes.'
+      },
+      {
+        id: 'parkour_tower',
+        title: 'Torre de Parkour Infinita',
+        category: 'survival',
+        icon: '🏃',
+        artBg: 'linear-gradient(135deg, #0F766E, #14B8A6)',
+        rating: '89%',
+        players: '420',
+        description: 'Suba centenas de andares sem cair. Chegue ao topo e ganhe troféus.'
+      }
     ];
 
-    // Códigos YAML para o Exporter do Ultimate UI (com defaults embutidos caso fetch seja restrito)
-    this.yamlConfigs = {
-      'hud.yml': `# Ultimate UI - HUD estilo Roblox
-id: "roblox_hud"
-title: ""
-type: "hud"
-enabled: true
-priority: 10
-layout:
-  screen-anchor: "top-left"
-  scale-mode: "adaptive"
-elements:
-  topbar_pill:
-    type: "panel"
-    x: 12
-    y: 12
-    width: 240
-    height: 44
-    border-radius: 12
-    background-color: "#191B1F"
-    opacity: 0.88
-  btn_menu:
-    type: "button"
-    x: 18
-    y: 18
-    width: 32
-    height: 32
-    icon: "textures/ui/icons/menu.png"
-    actions:
-      click: ["ultimateui open escape_menu"]
-  btn_chat:
-    type: "button"
-    x: 58
-    y: 18
-    width: 32
-    height: 32
-    actions:
-      click: ["ultimateui toggle_hud chat_overlay"]
-  btn_avatar:
-    type: "button"
-    x: 138
-    y: 18
-    width: 32
-    height: 32
-    actions:
-      click: ["ultimateui open avatar_menu"]
-  health_bar_fill:
-    type: "progress_bar"
-    x: "calc(100% - 310)"
-    y: 20
-    width: 130
-    height: 12
-    fill_color: "#00E676"
-    placeholder_current: "%player_health%"
-    placeholder_max: "%player_max_health%"`,
-
-      'escape_menu.yml': `# Ultimate UI - Menu ESC estilo Roblox
-id: "escape_menu"
-title: ""
-type: "cursor_menu"
-cursor: true
-blur_background: true
-layout:
-  width: 780
-  height: 520
-  align: "center"
-tabs:
-  - id: "tab_home"
-    name: "Início"
-  - id: "tab_players"
-    name: "Jogadores"
-  - id: "tab_avatar"
-    name: "Avatar"
-  - id: "tab_settings"
-    name: "Configurações"
-  - id: "tab_help"
-    name: "Ajuda"`,
-
-      'avatar_menu.yml': `# Ultimate UI - Menu de Avatar estilo Roblox
-id: "avatar_menu"
-title: ""
-type: "cursor_menu"
-cursor: true
-blur_background: true
-layout:
-  width: 860
-  height: 560
-  align: "center"
-elements:
-  preview_panel:
-    type: "character_view_3d"
-    x: 24
-    y: 72
-    width: 320
-    height: 410
-  skin_palette_grid:
-    type: "color_picker_grid"
-    columns: 6
-    colors: ["#E5A00D", "#E8B88A", "#D29C6E", "#A56A44", "#0D69AC", "#C4281C", "#27462D", "#6B327C"]`,
-
-      'home_menu.yml': `# Ultimate UI - Hub de Modos de Início
-id: "home_menu"
-title: ""
-type: "cursor_menu"
-cursor: true
-layout:
-  width: 900
-  height: 580
-  align: "center"
-hero_card:
-  title: "Modo em Destaque: Sobrevivência RPG"
-  action: "server connect survival_rpg"`
-    };
+    // Códigos do Projeto para xqedii.dev e Ultimate UI
+    this.projectFiles = {};
 
     this.init();
   }
 
-  async init() {
+  init() {
     this.initAudio();
-    this.initWorldCanvas();
-    this.renderHotbar();
-    this.renderLeaderboard();
-    this.renderFullPlayersTable();
-    this.initAvatarEditor();
+    this.renderFriends();
+    this.renderContinueGames();
+    this.renderRecommendedGames();
+    this.renderAllGames();
+    this.renderMarketItems();
+    this.initAvatarStudio();
     this.bindEvents();
-    this.loadYamlConfigs();
-    this.startEmoteAnimationLoop();
+    this.loadProjectFiles();
+    this.startEmoteLoop();
   }
 
   /* ========================================================
-     SISTEMA DE ÁUDIO WEB SYNTH (CLIQUES E EFEITOS)
+     SISTEMA DE ÁUDIO WEB SYNTH
      ======================================================== */
   initAudio() {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (AudioContext) {
-      this.audioCtx = new AudioContext();
-    }
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) this.audioCtx = new AudioCtx();
   }
 
   playSound(type = 'click') {
     if (!this.soundEnabled || !this.audioCtx) return;
-    if (this.audioCtx.state === 'suspended') {
-      this.audioCtx.resume();
-    }
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
 
     const ctx = this.audioCtx;
     const osc = ctx.createOscillator();
@@ -212,365 +147,250 @@ hero_card:
 
     if (type === 'click') {
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(600, now);
-      osc.frequency.exponentialRampToValueAtTime(300, now + 0.05);
-      gain.gain.setValueAtTime(0.12, now);
+      osc.frequency.setValueAtTime(550, now);
+      osc.frequency.exponentialRampToValueAtTime(320, now + 0.05);
+      gain.gain.setValueAtTime(0.1, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
       osc.start(now);
       osc.stop(now + 0.05);
     } else if (type === 'pop') {
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(400, now);
-      osc.frequency.exponentialRampToValueAtTime(800, now + 0.07);
-      gain.gain.setValueAtTime(0.15, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+      osc.frequency.setValueAtTime(450, now);
+      osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
       osc.start(now);
-      osc.stop(now + 0.07);
+      osc.stop(now + 0.08);
     } else if (type === 'equip') {
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(523.25, now); // C5
-      osc.frequency.setValueAtTime(659.25, now + 0.06); // E5
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.06);
       gain.gain.setValueAtTime(0.15, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
       osc.start(now);
       osc.stop(now + 0.16);
-    } else if (type === 'damage') {
+    } else if (type === 'launch') {
       osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(160, now);
-      osc.frequency.exponentialRampToValueAtTime(60, now + 0.15);
-      gain.gain.setValueAtTime(0.2, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(660, now + 0.3);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
       osc.start(now);
-      osc.stop(now + 0.15);
-    } else if (type === 'heal') {
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(392, now);
-      osc.frequency.setValueAtTime(523.25, now + 0.08);
-      osc.frequency.setValueAtTime(783.99, now + 0.16);
-      gain.gain.setValueAtTime(0.12, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-      osc.start(now);
-      osc.stop(now + 0.25);
+      osc.stop(now + 0.3);
     }
   }
 
   /* ========================================================
-     CENÁRIO 3D / GAME CANVAS (MINECRAFT PSEUDO-3D)
+     NAVEGAÇÃO POR TELAS (SPA)
      ======================================================== */
-  initWorldCanvas() {
-    const canvas = document.getElementById('world-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+  switchView(viewId) {
+    this.currentView = viewId;
 
-    let width, height;
-    const resize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', resize);
-    resize();
-
-    let mouseX = width / 2;
-    let mouseY = height / 2;
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+    // Atualiza links superiores
+    document.querySelectorAll('.nav-link-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.view === viewId);
     });
 
-    // Blocos de terreno em perspectiva voxel
-    const blocks = [];
-    const gridSize = 16;
-    for (let x = -gridSize; x <= gridSize; x++) {
-      for (let z = 1; z <= gridSize * 1.5; z++) {
-        const heightNoise = Math.sin(x * 0.4) * Math.cos(z * 0.3) * 1.5;
-        blocks.push({
-          x: x * 40,
-          y: 120 + heightNoise * 30,
-          z: z * 40,
-          type: (x + z) % 5 === 0 ? 'stone' : (x + z) % 3 === 0 ? 'darkgrass' : 'grass'
-        });
-      }
+    // Atualiza sidebar
+    document.querySelectorAll('.sidebar-item').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.view === viewId);
+    });
+
+    // Alterna visibilidade dos painéis
+    document.querySelectorAll('.view-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.id === viewId);
+    });
+
+    this.playSound('click');
+
+    if (viewId === 'view-avatar') {
+      setTimeout(() => this.drawStudioAvatar(), 40);
+    }
+  }
+
+  /* ========================================================
+     RENDERIZADOR DE AMIGOS E JOGOS
+     ======================================================== */
+  renderFriends() {
+    const container = document.getElementById('friends-carousel');
+    if (!container) return;
+
+    container.innerHTML = '';
+    this.friendsList.forEach(friend => {
+      const card = document.createElement('div');
+      card.className = 'friend-bubble-card';
+      card.innerHTML = `
+        <div class="friend-avatar-wrap">
+          <span>${friend.icon}</span>
+          <span class="friend-status-dot"></span>
+        </div>
+        <span class="friend-name">${friend.name}</span>
+        <span class="friend-playing-tag">${friend.game}</span>
+      `;
+      card.addEventListener('click', () => {
+        this.playSound('pop');
+        this.showToast(`${friend.name} está jogando ${friend.game}!`);
+      });
+      container.appendChild(card);
+    });
+  }
+
+  renderContinueGames() {
+    const container = document.getElementById('continue-games-list');
+    if (!container) return;
+
+    container.innerHTML = '';
+    const recents = this.gamesList.slice(0, 3);
+    recents.forEach(game => {
+      const card = this.createGameCard(game);
+      container.appendChild(card);
+    });
+  }
+
+  renderRecommendedGames() {
+    const container = document.getElementById('recommended-games-grid');
+    if (!container) return;
+
+    container.innerHTML = '';
+    const filtered = this.gamesList.filter(g => {
+      const matchCat = this.selectedCategory === 'all' || g.category === this.selectedCategory;
+      const matchSearch = !this.searchQuery || g.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+      return matchCat && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div style="grid-column: 1/-1; padding: 24px; color: #9CA3AF; text-align: center;">Nenhuma experiência encontrada com este filtro.</div>';
+      return;
     }
 
-    // Nuvens estilizadas
-    const clouds = [
-      { x: -200, y: -220, z: 400, w: 220, h: 50 },
-      { x: 150, y: -260, z: 600, w: 320, h: 60 },
-      { x: -350, y: -180, z: 500, w: 180, h: 45 },
-      { x: 300, y: -200, z: 450, w: 240, h: 55 }
+    filtered.forEach(game => {
+      container.appendChild(this.createGameCard(game));
+    });
+  }
+
+  renderAllGames() {
+    const container = document.getElementById('all-games-grid');
+    if (!container) return;
+
+    container.innerHTML = '';
+    this.gamesList.forEach(game => {
+      container.appendChild(this.createGameCard(game));
+    });
+  }
+
+  createGameCard(game) {
+    const card = document.createElement('div');
+    card.className = 'game-card-roblox';
+    card.innerHTML = `
+      <div class="game-art-banner" style="background: ${game.artBg};">
+        <span>${game.icon}</span>
+        <button class="game-play-overlay-btn" title="Jogar Agora">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+      <div class="game-card-info">
+        <h4 class="game-title" title="${game.title}">${game.title}</h4>
+        <div class="game-stats-row">
+          <span class="game-rating">👍 ${game.rating}</span>
+          <span class="game-players">👥 ${game.players}</span>
+        </div>
+      </div>
+    `;
+
+    // Clicar em qualquer parte do card ou no botão play dispara o jogo
+    card.addEventListener('click', () => {
+      this.launchGame(game);
+    });
+
+    return card;
+  }
+
+  renderMarketItems() {
+    const container = document.getElementById('market-items-grid');
+    if (!container) return;
+
+    const items = [
+      { name: 'Asas Flamejantes', price: '450 $', icon: '🪽', bg: '#7C2D12' },
+      { name: 'Coroa Imperial', price: '800 $', icon: '👑', bg: '#78350F' },
+      { name: 'Armadura Fantasma', price: '600 $', icon: '🛡️', bg: '#1E3A8A' },
+      { name: 'Espada de Raios', price: '350 $', icon: '⚡', bg: '#065F46' },
+      { name: 'Capa da Sombra', price: '250 $', icon: '🧣', bg: '#312E81' },
+      { name: 'Elmo Cibernético', price: '500 $', icon: '⛑️', bg: '#831843' }
     ];
 
-    let time = 0;
-    const render = () => {
-      time += 0.01;
-      ctx.clearRect(0, 0, width, height);
-
-      // Gradiente de Céu (Crepúsculo / Noite suave estilo Minecraft)
-      const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
-      skyGrad.addColorStop(0, '#0c1b33');
-      skyGrad.addColorStop(0.6, '#1a365d');
-      skyGrad.addColorStop(1, '#2d4a68');
-      ctx.fillStyle = skyGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Sol Quadrado estilo Minecraft
-      const sunX = width * 0.7 + Math.sin(time * 0.2) * 40;
-      const sunY = height * 0.25;
-      ctx.fillStyle = '#FFE082';
-      ctx.fillRect(sunX - 28, sunY - 28, 56, 56);
-      ctx.fillStyle = 'rgba(255, 224, 130, 0.15)';
-      ctx.fillRect(sunX - 42, sunY - 42, 84, 84);
-
-      // Nuvens quadradas flutuando
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-      clouds.forEach(c => {
-        c.x += 0.25;
-        if (c.x > width + 200) c.x = -400;
-        const camOffset = (mouseX - width / 2) * 0.04;
-        ctx.fillRect(c.x + camOffset, height * 0.3 + c.y * 0.4, c.w, c.h);
-      });
-
-      // Renderizar Terreno
-      const camX = (mouseX - width / 2) * 0.3;
-      const camY = (mouseY - height / 2) * 0.2;
-      const horizon = height * 0.58;
-
-      blocks.forEach(b => {
-        const perspective = 500 / (b.z + 500);
-        const screenX = (width / 2) + (b.x - camX) * perspective;
-        const screenY = horizon + (b.y - camY) * perspective;
-        const size = 38 * perspective;
-
-        if (size > 1 && screenX > -50 && screenX < width + 50) {
-          // Topo do bloco
-          if (b.type === 'grass') {
-            ctx.fillStyle = '#4CAF50';
-          } else if (b.type === 'darkgrass') {
-            ctx.fillStyle = '#388E3C';
-          } else {
-            ctx.fillStyle = '#78909C';
-          }
-          ctx.fillRect(screenX, screenY, size, size * 0.7);
-
-          // Lado de terra
-          ctx.fillStyle = b.type === 'stone' ? '#546E7A' : '#5D4037';
-          ctx.fillRect(screenX, screenY + size * 0.7, size, size * 0.6);
-
-          // Contorno de pixel
-          ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-          ctx.lineWidth = 1;
-          ctx.strokeRect(screenX, screenY, size, size * 1.3);
-        }
-      });
-
-      requestAnimationFrame(render);
-    };
-
-    render();
-  }
-
-  /* ========================================================
-     SISTEMA DE VIDA (HEALTH BAR)
-     ======================================================== */
-  setHealth(newHealth) {
-    this.health = Math.max(0, Math.min(this.maxHealth, newHealth));
-    const fill = document.getElementById('health-fill');
-    const label = document.getElementById('health-label');
-
-    if (!fill || !label) return;
-
-    const percent = (this.health / this.maxHealth) * 100;
-    fill.style.width = `${percent}%`;
-    label.innerText = `${this.health} / ${this.maxHealth}`;
-
-    // Classes de cor dinâmicas
-    fill.classList.remove('warning', 'danger');
-    if (percent <= 25) {
-      fill.classList.add('danger');
-    } else if (percent <= 55) {
-      fill.classList.add('warning');
-    }
-
-    if (this.health === 0) {
-      this.playSound('damage');
-      this.showToast('Você foi eliminado! Renascendo...');
-      setTimeout(() => {
-        this.setHealth(100);
-        this.playSound('heal');
-      }, 1500);
-    }
-  }
-
-  /* ========================================================
-     RENDERIZADOR DA HOTBAR (1-9 SLOTS)
-     ======================================================== */
-  renderHotbar() {
-    const container = document.getElementById('hotbar-slots');
-    if (!container) return;
-
     container.innerHTML = '';
-    this.hotbarItems.forEach((item, index) => {
-      const slot = document.createElement('div');
-      slot.className = `slot ${index === this.activeSlot ? 'active' : ''}`;
-      slot.dataset.index = index;
-
-      slot.innerHTML = `
-        <span class="slot-key">${index + 1}</span>
-        <span class="slot-icon">${item.icon}</span>
+    items.forEach(it => {
+      const card = document.createElement('div');
+      card.className = 'game-card-roblox';
+      card.innerHTML = `
+        <div class="game-art-banner" style="background: ${it.bg};">
+          <span>${it.icon}</span>
+        </div>
+        <div class="game-card-info">
+          <h4 class="game-title">${it.name}</h4>
+          <div class="game-stats-row">
+            <span style="color:var(--roblox-gold); font-weight:700;">${it.price}</span>
+          </div>
+        </div>
       `;
-
-      slot.addEventListener('click', () => {
-        this.selectSlot(index);
+      card.addEventListener('click', () => {
+        this.playSound('equip');
+        this.showToast(`${it.name} adquirido e enviado ao seu inventário!`);
       });
-
-      container.appendChild(slot);
-    });
-
-    this.updateItemTooltip();
-  }
-
-  selectSlot(index) {
-    if (index < 0 || index >= this.hotbarItems.length) return;
-    this.activeSlot = index;
-
-    const slots = document.querySelectorAll('.hotbar-slots .slot');
-    slots.forEach((s, idx) => {
-      s.classList.toggle('active', idx === index);
-    });
-
-    this.playSound('pop');
-    this.updateItemTooltip();
-    this.drawAvatarPreview();
-  }
-
-  updateItemTooltip() {
-    const tooltip = document.getElementById('item-tooltip');
-    if (!tooltip) return;
-
-    const item = this.hotbarItems[this.activeSlot];
-    tooltip.innerText = `[${this.activeSlot + 1}] ${item.name}`;
-    tooltip.classList.add('visible');
-
-    clearTimeout(this.tooltipTimeout);
-    this.tooltipTimeout = setTimeout(() => {
-      tooltip.classList.remove('visible');
-    }, 2000);
-  }
-
-  /* ========================================================
-     LEADERBOARD & TABELAS DE JOGADORES
-     ======================================================== */
-  renderLeaderboard() {
-    const container = document.getElementById('leaderboard-rows');
-    if (!container) return;
-
-    container.innerHTML = '';
-    this.players.forEach(p => {
-      const row = document.createElement('div');
-      row.className = 'leader-row';
-      row.innerHTML = `
-        <div class="leader-user">
-          <span>${p.name}</span>
-        </div>
-        <div><span class="rank-badge ${p.rank}">${p.rank.toUpperCase()}</span></div>
-        <div class="ping-val">${p.ping}ms</div>
-        <div>
-          ${p.isSelf ? '<span style="font-size:10px; color:#9DA3AE;">Você</span>' : '<button class="btn-mini-action" onclick="app.showToast(\'Convite enviado para ' + p.name + '!\')">Convidar</button>'}
-        </div>
-      `;
-      container.appendChild(row);
-    });
-  }
-
-  renderFullPlayersTable() {
-    const container = document.getElementById('full-players-list');
-    if (!container) return;
-
-    container.innerHTML = '';
-    this.players.forEach(p => {
-      const row = document.createElement('div');
-      row.className = 'p-table-row';
-      row.innerHTML = `
-        <div class="user-cell">
-          <div class="mini-avatar" style="background:#E5A00D;"></div>
-          <span>${p.name} (Nível ${p.level})</span>
-        </div>
-        <div><span class="rank-badge ${p.rank}">${p.rank.toUpperCase()}</span></div>
-        <div class="ping-val">${p.ping} ms</div>
-        <div class="table-actions">
-          ${p.isSelf ? '<span style="color:#9DA3AE; font-size:11px;">Seu Personagem</span>' : `
-            <button class="btn-table-action" onclick="app.showToast('Pedido de amizade enviado!')">Adicionar</button>
-            <button class="btn-table-action" onclick="app.showToast('Jogador silenciado!')">Silenciar</button>
-          `}
-        </div>
-      `;
-      container.appendChild(row);
+      container.appendChild(card);
     });
   }
 
   /* ========================================================
-     CHAT DO JOGO (INTERATIVO COM RESPOSTAS AUTOMÁTICAS)
+     SIMULADOR DE INICIALIZAÇÃO DE EXPERIÊNCIA
      ======================================================== */
-  sendChatMessage(text) {
-    if (!text || !text.trim()) return;
-    const list = document.getElementById('chat-messages-list');
-    if (!list) return;
+  launchGame(game) {
+    const modal = document.getElementById('modal-launch');
+    const art = document.getElementById('launch-art-box');
+    const title = document.getElementById('launch-title');
+    const desc = document.getElementById('launch-desc');
+    const fill = document.getElementById('launch-progress');
 
-    const userMsg = document.createElement('div');
-    userMsg.className = 'chat-msg';
-    userMsg.innerHTML = `
-      <span class="msg-sender user">[Jogador]:</span>
-      <span class="msg-content">${this.escapeHtml(text.trim())}</span>
-    `;
-    list.appendChild(userMsg);
-    list.scrollTop = list.scrollHeight;
+    if (!modal) return;
 
-    this.playSound('pop');
+    art.style.background = game.artBg;
+    art.innerText = game.icon;
+    title.innerText = `Iniciando: ${game.title}`;
+    desc.innerText = 'Carregando pacotes de recursos e conectando ao servidor...';
+    fill.style.width = '0%';
 
-    // Resposta simulada de bot/servidor após 1.2s
-    setTimeout(() => {
-      const randomReplies = [
-        'Boa jogada!',
-        'Alguém viu a espada lendária?',
-        'O menu do Ultimate UI ficou muito suave!',
-        'Partiu minigame?',
-        'Pressione ESC para ver as configurações.'
-      ];
-      const bot = this.players[Math.floor(Math.random() * (this.players.length - 1))];
-      const replyText = randomReplies[Math.floor(Math.random() * randomReplies.length)];
+    modal.classList.add('open');
+    this.playSound('launch');
 
-      const botMsg = document.createElement('div');
-      botMsg.className = 'chat-msg';
-      botMsg.innerHTML = `
-        <span class="msg-sender ${bot.rank}">[${bot.rank.toUpperCase()}] ${bot.name}:</span>
-        <span class="msg-content">${replyText}</span>
-      `;
-      list.appendChild(botMsg);
-      list.scrollTop = list.scrollHeight;
+    let prog = 0;
+    const interval = setInterval(() => {
+      prog += 25;
+      fill.style.width = `${prog}%`;
+      if (prog >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          modal.classList.remove('open');
+          this.showToast(`Conectado com sucesso a: ${game.title}!`);
+        }, 500);
+      }
+    }, 280);
+
+    document.getElementById('btn-cancel-launch').onclick = () => {
+      clearInterval(interval);
+      modal.classList.remove('open');
       this.playSound('click');
-    }, 1200);
-  }
-
-  escapeHtml(string) {
-    const entityMap = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
     };
-    return String(string).replace(/[&<>"']/g, s => entityMap[s]);
   }
 
   /* ========================================================
-     PERSONALIZADOR DE AVATAR (RENDER BLOCKY 2.5D INTERATIVO)
+     AVATAR STUDIO (CANVAS 3D ROTATÓRIO COM PALETA)
      ======================================================== */
-  initAvatarEditor() {
-    const canvas = document.getElementById('avatar-preview-canvas');
+  initAvatarStudio() {
+    const canvas = document.getElementById('studio-avatar-canvas');
     if (!canvas) return;
 
-    // Gerar Paleta de Cores estilo Roblox
-    const skinGrid = document.getElementById('skin-colors-grid');
+    // 1. Gerar Paleta de Cores estilo Roblox
+    const swatchesGrid = document.getElementById('skin-color-swatches');
     const colors = [
       '#E5A00D', // Classic Yellow
       '#E8B88A', // Tan
@@ -586,157 +406,155 @@ hero_card:
       '#1B2A35'  // Black
     ];
 
-    if (skinGrid) {
-      skinGrid.innerHTML = '';
+    if (swatchesGrid) {
+      swatchesGrid.innerHTML = '';
       colors.forEach(col => {
         const swatch = document.createElement('div');
-        swatch.className = `color-swatch ${col === this.avatarState.skinColor ? 'active' : ''}`;
+        swatch.className = `studio-swatch ${col === this.avatarState.skinColor ? 'active' : ''}`;
         swatch.style.backgroundColor = col;
-        swatch.dataset.color = col;
 
         swatch.addEventListener('click', () => {
-          document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+          document.querySelectorAll('.studio-swatch').forEach(s => s.classList.remove('active'));
           swatch.classList.add('active');
           this.avatarState.skinColor = col;
           this.playSound('equip');
-          this.drawAvatarPreview();
-          this.updateMiniAvatarColor();
+          this.drawStudioAvatar();
+          this.updateTopAvatarColor();
         });
 
-        skinGrid.appendChild(swatch);
+        swatchesGrid.appendChild(swatch);
       });
     }
 
-    // Gerar Itens de Roupas
-    const clothesGrid = document.getElementById('clothes-grid');
-    const clothesItems = [
+    // 2. Gerar Roupas
+    const clothesGrid = document.getElementById('studio-clothes-grid');
+    const clothesList = [
       { id: 'shirt_casual', name: 'Casual Azul', icon: '👕', torso: '#0D69AC', legs: '#1B2A35' },
-      { id: 'shirt_suit', name: 'Terno Elegante', icon: '👔', torso: '#1B2A35', legs: '#1B2A35' },
+      { id: 'shirt_suit', name: 'Terno Executivo', icon: '👔', torso: '#1B2A35', legs: '#1B2A35' },
       { id: 'shirt_hoodie', name: 'Moletom Vermelho', icon: '🧥', torso: '#C4281C', legs: '#23272F' },
-      { id: 'shirt_armor', name: 'Armadura Diamante', icon: '🛡️', torso: '#4DD0E1', legs: '#00ACC1' },
-      { id: 'shirt_ninja', name: 'Manto Ninja', icon: '🥷', torso: '#212121', legs: '#212121' },
-      { id: 'shirt_gold', name: 'Armadura Dourada', icon: '✨', torso: '#FFD700', legs: '#FFA000' }
+      { id: 'shirt_armor', name: 'Armadura Diamante', icon: '🛡️', torso: '#38BDF8', legs: '#0284C7' },
+      { id: 'shirt_ninja', name: 'Manto das Sombras', icon: '🥷', torso: '#18181B', legs: '#18181B' },
+      { id: 'shirt_gold', name: 'Armadura Dourada', icon: '✨', torso: '#F59E0B', legs: '#D97706' }
     ];
 
     if (clothesGrid) {
       clothesGrid.innerHTML = '';
-      clothesItems.forEach(item => {
+      clothesList.forEach(it => {
         const card = document.createElement('div');
-        card.className = `item-card ${item.id === this.avatarState.shirt ? 'active' : ''}`;
+        card.className = `studio-item-card ${it.id === this.avatarState.shirt ? 'active' : ''}`;
         card.innerHTML = `
-          <span class="item-equipped-tag">EQUIPADO</span>
-          <span class="item-card-icon">${item.icon}</span>
-          <span class="item-card-name">${item.name}</span>
+          <span class="studio-equipped-tag">EQUIPADO</span>
+          <span class="studio-item-icon">${it.icon}</span>
+          <span class="studio-item-name">${it.name}</span>
         `;
         card.addEventListener('click', () => {
-          document.querySelectorAll('#clothes-grid .item-card').forEach(c => c.classList.remove('active'));
+          document.querySelectorAll('#studio-clothes-grid .studio-item-card').forEach(c => c.classList.remove('active'));
           card.classList.add('active');
-          this.avatarState.shirt = item.id;
-          this.avatarState.torsoColor = item.torso;
-          this.avatarState.legColor = item.legs;
+          this.avatarState.shirt = it.id;
+          this.avatarState.torsoColor = it.torso;
+          this.avatarState.legColor = it.legs;
           this.playSound('equip');
-          this.drawAvatarPreview();
+          this.drawStudioAvatar();
         });
         clothesGrid.appendChild(card);
       });
     }
 
-    // Gerar Itens de Chapéus
-    const hatsGrid = document.getElementById('hats-grid');
-    const hatsItems = [
+    // 3. Gerar Chapéus & Cabelos
+    const hatsGrid = document.getElementById('studio-hats-grid');
+    const hatsList = [
       { id: 'none', name: 'Nenhum', icon: '❌' },
       { id: 'hair_classic', name: 'Cabelo Clássico', icon: '💇' },
       { id: 'hat_cap', name: 'Boné Vermelho', icon: '🧢' },
-      { id: 'hat_crown', name: 'Coroa Dourada', icon: '👑' },
+      { id: 'hat_crown', name: 'Coroa Imperial', icon: '👑' },
       { id: 'hat_helm', name: 'Elmo Guerreiro', icon: '⛑️' },
       { id: 'hat_wizard', name: 'Chapéu Mágico', icon: '🧙' }
     ];
 
     if (hatsGrid) {
       hatsGrid.innerHTML = '';
-      hatsItems.forEach(item => {
+      hatsList.forEach(it => {
         const card = document.createElement('div');
-        card.className = `item-card ${item.id === this.avatarState.hat ? 'active' : ''}`;
+        card.className = `studio-item-card ${it.id === this.avatarState.hat ? 'active' : ''}`;
         card.innerHTML = `
-          <span class="item-equipped-tag">EQUIPADO</span>
-          <span class="item-card-icon">${item.icon}</span>
-          <span class="item-card-name">${item.name}</span>
+          <span class="studio-equipped-tag">EQUIPADO</span>
+          <span class="studio-item-icon">${it.icon}</span>
+          <span class="studio-item-name">${it.name}</span>
         `;
         card.addEventListener('click', () => {
-          document.querySelectorAll('#hats-grid .item-card').forEach(c => c.classList.remove('active'));
+          document.querySelectorAll('#studio-hats-grid .studio-item-card').forEach(c => c.classList.remove('active'));
           card.classList.add('active');
-          this.avatarState.hat = item.id;
+          this.avatarState.hat = it.id;
           this.playSound('equip');
-          this.drawAvatarPreview();
+          this.drawStudioAvatar();
         });
         hatsGrid.appendChild(card);
       });
     }
 
-    // Gerar Itens de Acessórios
-    const accGrid = document.getElementById('accessories-grid');
-    const accItems = [
+    // 4. Gerar Acessórios de Costas
+    const accGrid = document.getElementById('studio-accessories-grid');
+    const accList = [
       { id: 'none', name: 'Nenhum', icon: '❌' },
       { id: 'acc_wings', name: 'Asas de Dragão', icon: '🪽' },
-      { id: 'acc_sword', name: 'Espada nas Costas', icon: '🗡️' },
-      { id: 'acc_backpack', name: 'Mochila Militar', icon: '🎒' },
       { id: 'acc_cape', name: 'Capa Épica', icon: '🧣' },
-      { id: 'acc_shield', name: 'Escudo Protetor', icon: '🛡️' }
+      { id: 'acc_backpack', name: 'Mochila Militar', icon: '🎒' },
+      { id: 'acc_sword', name: 'Espada nas Costas', icon: '🗡️' }
     ];
 
     if (accGrid) {
       accGrid.innerHTML = '';
-      accItems.forEach(item => {
+      accList.forEach(it => {
         const card = document.createElement('div');
-        card.className = `item-card ${item.id === this.avatarState.accessory ? 'active' : ''}`;
+        card.className = `studio-item-card ${it.id === this.avatarState.accessory ? 'active' : ''}`;
         card.innerHTML = `
-          <span class="item-equipped-tag">EQUIPADO</span>
-          <span class="item-card-icon">${item.icon}</span>
-          <span class="item-card-name">${item.name}</span>
+          <span class="studio-equipped-tag">EQUIPADO</span>
+          <span class="studio-item-icon">${it.icon}</span>
+          <span class="studio-item-name">${it.name}</span>
         `;
         card.addEventListener('click', () => {
-          document.querySelectorAll('#accessories-grid .item-card').forEach(c => c.classList.remove('active'));
+          document.querySelectorAll('#studio-accessories-grid .studio-item-card').forEach(c => c.classList.remove('active'));
           card.classList.add('active');
-          this.avatarState.accessory = item.id;
+          this.avatarState.accessory = it.id;
           this.playSound('equip');
-          this.drawAvatarPreview();
+          this.drawStudioAvatar();
         });
         accGrid.appendChild(card);
       });
     }
 
-    // Gerar Emotes Interativos
-    const emotesGrid = document.getElementById('emotes-grid');
-    const emotes = [
-      { id: 'wave', name: 'Acenar', desc: 'Acena amigavelmente', icon: '👋' },
-      { id: 'dance', name: 'Dançar', desc: 'Passos de dança clássicos', icon: '🕺' },
-      { id: 'clap', name: 'Aplaudir', desc: 'Bate palmas de comemoração', icon: '👏' },
+    // 5. Gerar Emotes Interativos
+    const emotesGrid = document.getElementById('studio-emotes-grid');
+    const emotesList = [
+      { id: 'wave', name: 'Acenar', desc: 'Acena para outros jogadores', icon: '👋' },
+      { id: 'dance', name: 'Dançar', desc: 'Passos clássicos de dança', icon: '🕺' },
+      { id: 'clap', name: 'Aplaudir', desc: 'Comemora com palmas', icon: '👏' },
       { id: 'sit', name: 'Sentar', desc: 'Descansa no chão', icon: '🪑' }
     ];
 
     if (emotesGrid) {
       emotesGrid.innerHTML = '';
-      emotes.forEach(emote => {
+      emotesList.forEach(em => {
         const card = document.createElement('div');
-        card.className = 'emote-card';
+        card.className = 'studio-emote-card';
         card.innerHTML = `
-          <span class="emote-icon">${emote.icon}</span>
-          <div class="emote-info">
-            <span class="emote-title">${emote.name}</span>
-            <span class="emote-desc">${emote.desc}</span>
+          <span class="studio-emote-icon">${em.icon}</span>
+          <div class="studio-emote-info">
+            <span class="studio-emote-title">${em.name}</span>
+            <span class="studio-emote-desc">${em.desc}</span>
           </div>
         `;
         card.addEventListener('click', () => {
-          document.querySelectorAll('.emote-card').forEach(c => c.classList.remove('playing'));
+          document.querySelectorAll('.studio-emote-card').forEach(c => c.classList.remove('playing'));
           card.classList.add('playing');
-          this.playEmote(emote.id);
+          this.playEmote(em.id);
           this.playSound('pop');
         });
         emotesGrid.appendChild(card);
       });
     }
 
-    // Interação com Mouse e Touch para girar o Avatar (Drag)
+    // Rotação com Mouse (Drag)
     canvas.addEventListener('mousedown', (e) => {
       this.avatarState.isDragging = true;
       this.avatarState.lastMouseX = e.clientX;
@@ -747,7 +565,7 @@ hero_card:
         const delta = e.clientX - this.avatarState.lastMouseX;
         this.avatarState.rotation += delta * 0.02;
         this.avatarState.lastMouseX = e.clientX;
-        this.drawAvatarPreview();
+        this.drawStudioAvatar();
       }
     });
 
@@ -755,7 +573,7 @@ hero_card:
       this.avatarState.isDragging = false;
     });
 
-    // Suporte a Touch no celular (iOS / Android)
+    // Rotação com Touch no Celular
     canvas.addEventListener('touchstart', (e) => {
       if (e.touches && e.touches.length > 0) {
         this.avatarState.isDragging = true;
@@ -768,7 +586,7 @@ hero_card:
         const delta = e.touches[0].clientX - this.avatarState.lastMouseX;
         this.avatarState.rotation += delta * 0.025;
         this.avatarState.lastMouseX = e.touches[0].clientX;
-        this.drawAvatarPreview();
+        this.drawStudioAvatar();
       }
     }, { passive: true });
 
@@ -776,22 +594,22 @@ hero_card:
       this.avatarState.isDragging = false;
     });
 
-    // Botões de rotação
-    document.getElementById('btn-rot-left')?.addEventListener('click', () => {
+    // Controles de giro
+    document.getElementById('btn-stage-rot-left')?.addEventListener('click', () => {
       this.avatarState.rotation -= Math.PI / 4;
-      this.drawAvatarPreview();
+      this.drawStudioAvatar();
     });
-    document.getElementById('btn-rot-right')?.addEventListener('click', () => {
+    document.getElementById('btn-stage-rot-right')?.addEventListener('click', () => {
       this.avatarState.rotation += Math.PI / 4;
-      this.drawAvatarPreview();
+      this.drawStudioAvatar();
     });
-    document.getElementById('btn-rot-reset')?.addEventListener('click', () => {
+    document.getElementById('btn-stage-reset')?.addEventListener('click', () => {
       this.avatarState.rotation = 0;
-      this.drawAvatarPreview();
+      this.drawStudioAvatar();
     });
 
-    // Resetar e Salvar
-    document.getElementById('btn-avatar-reset')?.addEventListener('click', () => {
+    // Reset e Salvar
+    document.getElementById('btn-studio-reset')?.addEventListener('click', () => {
       this.avatarState.skinColor = '#E5A00D';
       this.avatarState.torsoColor = '#0D69AC';
       this.avatarState.legColor = '#27462D';
@@ -800,24 +618,24 @@ hero_card:
       this.avatarState.accessory = 'none';
       this.avatarState.rotation = 0;
       this.playSound('equip');
-      this.drawAvatarPreview();
-      this.initAvatarEditor();
-      this.showToast('Visual restaurado ao padrão!');
+      this.drawStudioAvatar();
+      this.initAvatarStudio();
+      this.showToast('Avatar restaurado ao padrão original!');
     });
 
-    document.getElementById('btn-avatar-save')?.addEventListener('click', () => {
+    document.getElementById('btn-studio-save')?.addEventListener('click', () => {
       this.playSound('equip');
-      this.showToast('Avatar salvo no servidor com sucesso!');
+      this.showToast('Visual do Avatar salvo com sucesso!');
     });
 
-    this.drawAvatarPreview();
+    this.drawStudioAvatar();
   }
 
-  updateMiniAvatarColor() {
-    const mini = document.getElementById('mini-avatar-face');
-    if (mini) {
-      mini.style.backgroundColor = this.avatarState.skinColor;
-    }
+  updateTopAvatarColor() {
+    const head = document.getElementById('top-avatar-head');
+    const homeHead = document.querySelector('.greeting-avatar-circle');
+    if (head) head.style.backgroundColor = this.avatarState.skinColor;
+    if (homeHead) homeHead.style.backgroundColor = this.avatarState.skinColor;
   }
 
   playEmote(id) {
@@ -827,25 +645,25 @@ hero_card:
     clearTimeout(this.emoteTimeout);
     this.emoteTimeout = setTimeout(() => {
       this.avatarState.activeEmote = null;
-      document.querySelectorAll('.emote-card').forEach(c => c.classList.remove('playing'));
-      this.drawAvatarPreview();
-    }, 4000);
+      document.querySelectorAll('.studio-emote-card').forEach(c => c.classList.remove('playing'));
+      this.drawStudioAvatar();
+    }, 4500);
   }
 
-  startEmoteAnimationLoop() {
+  startEmoteLoop() {
     const loop = () => {
       if (this.avatarState.activeEmote) {
         this.avatarState.emoteFrame += 0.12;
-        this.drawAvatarPreview();
+        this.drawStudioAvatar();
       }
       requestAnimationFrame(loop);
     };
     loop();
   }
 
-  /* RENDERIZADOR 2.5D DO AVATAR EM CANVAS */
-  drawAvatarPreview() {
-    const canvas = document.getElementById('avatar-preview-canvas');
+  /* RENDERIZADOR DO AVATAR EM CANVAS */
+  drawStudioAvatar() {
+    const canvas = document.getElementById('studio-avatar-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const width = canvas.width;
@@ -853,10 +671,10 @@ hero_card:
 
     ctx.clearRect(0, 0, width, height);
 
-    // Sombra suave sob os pés
+    // Sombra oval no chão
     ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
     ctx.beginPath();
-    ctx.ellipse(width / 2, height - 35, 60, 16, 0, 0, Math.PI * 2);
+    ctx.ellipse(width / 2, height - 45, 75, 20, 0, 0, Math.PI * 2);
     ctx.fill();
 
     const rot = this.avatarState.rotation;
@@ -864,247 +682,216 @@ hero_card:
     const sinR = Math.sin(rot);
 
     const centerX = width / 2;
-    const centerY = height / 2 - 10;
+    const centerY = height / 2 - 20;
 
-    // Animações de Emotes
+    // Animações de Emote
     let armLeftAngle = 0;
     let armRightAngle = 0;
     let bobY = 0;
     let legOffset = 0;
 
     if (this.avatarState.activeEmote === 'wave') {
-      armRightAngle = -Math.PI / 1.3 + Math.sin(this.avatarState.emoteFrame * 4) * 0.3;
+      armRightAngle = -Math.PI / 1.3 + Math.sin(this.avatarState.emoteFrame * 4) * 0.35;
     } else if (this.avatarState.activeEmote === 'dance') {
-      bobY = Math.sin(this.avatarState.emoteFrame * 3) * 8;
-      armLeftAngle = Math.sin(this.avatarState.emoteFrame * 3) * 0.8;
-      armRightAngle = -Math.sin(this.avatarState.emoteFrame * 3) * 0.8;
+      bobY = Math.sin(this.avatarState.emoteFrame * 3) * 10;
+      armLeftAngle = Math.sin(this.avatarState.emoteFrame * 3) * 0.9;
+      armRightAngle = -Math.sin(this.avatarState.emoteFrame * 3) * 0.9;
     } else if (this.avatarState.activeEmote === 'clap') {
-      armLeftAngle = -Math.PI / 2.2 + Math.sin(this.avatarState.emoteFrame * 6) * 0.15;
-      armRightAngle = -Math.PI / 2.2 - Math.sin(this.avatarState.emoteFrame * 6) * 0.15;
+      armLeftAngle = -Math.PI / 2.2 + Math.sin(this.avatarState.emoteFrame * 6) * 0.2;
+      armRightAngle = -Math.PI / 2.2 - Math.sin(this.avatarState.emoteFrame * 6) * 0.2;
     } else if (this.avatarState.activeEmote === 'sit') {
-      bobY = 40;
-      legOffset = 25;
+      bobY = 45;
+      legOffset = 30;
     }
 
     ctx.save();
     ctx.translate(centerX, centerY + bobY);
 
-    // 1. Acessório Traseiro (Asas ou Capa se estiver de costas/frente)
+    // 1. Asas ou Capa nas Costas
     if (this.avatarState.accessory === 'acc_wings') {
-      ctx.fillStyle = 'rgba(239, 68, 68, 0.85)';
+      ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
+      // Asa esquerda
       ctx.beginPath();
-      ctx.moveTo(-cosR * 30, -20);
-      ctx.lineTo(-80, -90);
-      ctx.lineTo(-70, -20);
-      ctx.lineTo(-cosR * 20, 20);
+      ctx.moveTo(-cosR * 35, -20);
+      ctx.lineTo(-95, -100);
+      ctx.lineTo(-85, -20);
+      ctx.lineTo(-cosR * 25, 25);
       ctx.fill();
-
+      // Asa direita
       ctx.beginPath();
-      ctx.moveTo(cosR * 30, -20);
-      ctx.lineTo(80, -90);
-      ctx.lineTo(70, -20);
-      ctx.lineTo(cosR * 20, 20);
+      ctx.moveTo(cosR * 35, -20);
+      ctx.lineTo(95, -100);
+      ctx.lineTo(85, -20);
+      ctx.lineTo(cosR * 25, 25);
       ctx.fill();
     } else if (this.avatarState.accessory === 'acc_cape') {
       ctx.fillStyle = '#1E3A8A';
-      ctx.fillRect(-28 * cosR - 22, -10, 44, 85);
+      ctx.fillRect(-34 * cosR - 26, -15, 52, 100);
     }
 
     // 2. Pernas (Blocky Legs)
     ctx.fillStyle = this.avatarState.legColor;
-    // Perna Esquerda
-    ctx.fillRect(-28 * cosR - 18, 50 - legOffset, 16, 55 + legOffset);
-    // Perna Direita
-    ctx.fillRect(28 * cosR + 2, 50 - legOffset, 16, 55 + legOffset);
+    ctx.fillRect(-32 * cosR - 22, 60 - legOffset, 20, 68 + legOffset);
+    ctx.fillRect(32 * cosR + 2, 60 - legOffset, 20, 68 + legOffset);
 
-    // Contorno de sapatos
+    // Sapatos
     ctx.fillStyle = '#111317';
-    ctx.fillRect(-28 * cosR - 18, 95, 16, 12);
-    ctx.fillRect(28 * cosR + 2, 95, 16, 12);
+    ctx.fillRect(-32 * cosR - 22, 115, 20, 15);
+    ctx.fillRect(32 * cosR + 2, 115, 20, 15);
 
     // 3. Tronco (Blocky Torso)
     ctx.fillStyle = this.avatarState.torsoColor;
-    const torsoW = 44 * Math.max(0.4, Math.abs(cosR));
-    ctx.fillRect(-torsoW / 2, -15, torsoW, 65);
+    const torsoW = 54 * Math.max(0.4, Math.abs(cosR));
+    ctx.fillRect(-torsoW / 2, -20, torsoW, 80);
 
-    // Cinto / detalhe do tronco
+    // Detalhe de cinto
     ctx.fillStyle = 'rgba(0,0,0,0.2)';
-    ctx.fillRect(-torsoW / 2, 40, torsoW, 10);
+    ctx.fillRect(-torsoW / 2, 48, torsoW, 12);
 
     // 4. Braço Esquerdo
     ctx.save();
-    ctx.translate(-torsoW / 2 - 8, -10);
+    ctx.translate(-torsoW / 2 - 10, -15);
     ctx.rotate(armLeftAngle);
     ctx.fillStyle = this.avatarState.skinColor;
-    ctx.fillRect(-8, 0, 14, 55);
+    ctx.fillRect(-10, 0, 18, 68);
     ctx.fillStyle = this.avatarState.torsoColor;
-    ctx.fillRect(-8, 0, 14, 20); // Manga da camisa
+    ctx.fillRect(-10, 0, 18, 24); // Manga
     ctx.restore();
 
-    // 5. Braço Direito (com Item da Hotbar se equipado)
+    // 5. Braço Direito
     ctx.save();
-    ctx.translate(torsoW / 2 + 8, -10);
+    ctx.translate(torsoW / 2 + 10, -15);
     ctx.rotate(armRightAngle);
     ctx.fillStyle = this.avatarState.skinColor;
-    ctx.fillRect(-6, 0, 14, 55);
+    ctx.fillRect(-8, 0, 18, 68);
     ctx.fillStyle = this.avatarState.torsoColor;
-    ctx.fillRect(-6, 0, 14, 20); // Manga da camisa
-
-    // Renderizar Item da Hotbar na Mão Direita
-    const activeItem = this.hotbarItems[this.activeSlot];
-    if (activeItem) {
-      ctx.font = '22px sans-serif';
-      ctx.fillText(activeItem.icon, 2, 60);
-    }
+    ctx.fillRect(-8, 0, 18, 24); // Manga
     ctx.restore();
 
     // 6. Cabeça (Blocky Head)
     ctx.fillStyle = this.avatarState.skinColor;
-    const headSize = 46;
-    ctx.fillRect(-headSize / 2, -headSize - 15, headSize, headSize);
+    const headSize = 56;
+    ctx.fillRect(-headSize / 2, -headSize - 20, headSize, headSize);
 
-    // Rosto (Olhos e Sorriso clássico estilizado, visível se estiver virado para frente)
+    // Olhos e Sorriso clássico
     if (cosR >= -0.2) {
-      const faceShiftX = sinR * 12;
+      const faceShiftX = sinR * 14;
       ctx.fillStyle = '#111827';
-      // Olho Esquerdo
-      ctx.fillRect(-14 + faceShiftX, -45, 6, 8);
-      // Olho Direito
-      ctx.fillRect(8 + faceShiftX, -45, 6, 8);
-      // Sorriso
-      ctx.fillRect(-10 + faceShiftX, -30, 20, 4);
+      ctx.fillRect(-16 + faceShiftX, -56, 8, 10);
+      ctx.fillRect(10 + faceShiftX, -56, 8, 10);
+      ctx.fillRect(-12 + faceShiftX, -38, 24, 5);
     }
 
     // 7. Chapéu / Cabelo
     if (this.avatarState.hat === 'hair_classic') {
       ctx.fillStyle = '#451A03';
-      ctx.fillRect(-headSize / 2 - 2, -headSize - 18, headSize + 4, 14);
-      ctx.fillRect(-headSize / 2 - 4, -headSize - 18, 8, 22);
+      ctx.fillRect(-headSize / 2 - 2, -headSize - 24, headSize + 4, 18);
+      ctx.fillRect(-headSize / 2 - 5, -headSize - 24, 10, 28);
     } else if (this.avatarState.hat === 'hat_cap') {
       ctx.fillStyle = '#DC2626';
-      ctx.fillRect(-headSize / 2 - 2, -headSize - 20, headSize + 4, 16);
-      ctx.fillRect(-headSize / 2 - 12, -headSize - 8, 22, 6); // Aba do boné
+      ctx.fillRect(-headSize / 2 - 2, -headSize - 26, headSize + 4, 20);
+      ctx.fillRect(-headSize / 2 - 16, -headSize - 10, 28, 8); // Aba
     } else if (this.avatarState.hat === 'hat_crown') {
       ctx.fillStyle = '#FBBF24';
-      ctx.fillRect(-headSize / 2, -headSize - 25, headSize, 12);
-      // Pontas da coroa
+      ctx.fillRect(-headSize / 2, -headSize - 32, headSize, 16);
       ctx.beginPath();
-      ctx.moveTo(-headSize / 2, -headSize - 25);
-      ctx.lineTo(-headSize / 2 + 8, -headSize - 35);
-      ctx.lineTo(-headSize / 2 + 16, -headSize - 25);
-      ctx.lineTo(0, -headSize - 38);
-      ctx.lineTo(headSize / 2 - 16, -headSize - 25);
-      ctx.lineTo(headSize / 2 - 8, -headSize - 35);
-      ctx.lineTo(headSize / 2, -headSize - 25);
+      ctx.moveTo(-headSize / 2, -headSize - 32);
+      ctx.lineTo(-headSize / 2 + 10, -headSize - 45);
+      ctx.lineTo(-headSize / 2 + 20, -headSize - 32);
+      ctx.lineTo(0, -headSize - 48);
+      ctx.lineTo(headSize / 2 - 20, -headSize - 32);
+      ctx.lineTo(headSize / 2 - 10, -headSize - 45);
+      ctx.lineTo(headSize / 2, -headSize - 32);
       ctx.fill();
     } else if (this.avatarState.hat === 'hat_helm') {
       ctx.fillStyle = '#94A3B8';
-      ctx.fillRect(-headSize / 2 - 3, -headSize - 20, headSize + 6, 32);
+      ctx.fillRect(-headSize / 2 - 4, -headSize - 26, headSize + 8, 40);
       ctx.fillStyle = '#0F172A';
-      ctx.fillRect(-headSize / 2 + 6, -headSize - 5, headSize - 12, 10);
+      ctx.fillRect(-headSize / 2 + 8, -headSize - 8, headSize - 16, 12);
     }
 
     ctx.restore();
   }
 
   /* ========================================================
-     MODAIS E CONTROLE DO MENU ESC
+     MODAL DE EXPORTAÇÃO PARA ULTIMATE UI / XQEDII.DEV
      ======================================================== */
-  openEscapeMenu(targetTab = 'tab-home') {
-    const modal = document.getElementById('modal-escape');
-    if (!modal) return;
+  async loadProjectFiles() {
+    this.projectFiles['roblox_menu_project.json'] = `{
+  "project": "Roblox_Main_Menu_UltimateUI",
+  "version": "1.0.0",
+  "target": "xqedii.dev/ultimateui/editor",
+  "canvas": { "width": 1280, "height": 720, "background": "#0F1115" },
+  "components": [
+    { "type": "panel", "id": "top_bar", "x": 0, "y": 0, "w": 1280, "h": 56, "bg": "#181A20" },
+    { "type": "button", "id": "btn_home", "x": 80, "y": 12, "text": "Início" },
+    { "type": "button", "id": "btn_avatar", "x": 280, "y": 12, "text": "Avatar" },
+    { "type": "character_view_3d", "id": "avatar_preview", "x": 100, "y": 100, "w": 380, "h": 500 }
+  ]
+}`;
 
-    modal.classList.add('open');
-    this.switchEscTab(targetTab);
-    this.playSound('click');
-  }
-
-  closeEscapeMenu() {
-    const modal = document.getElementById('modal-escape');
-    if (modal) {
-      modal.classList.remove('open');
-      this.playSound('click');
-    }
-  }
-
-  toggleEscapeMenu() {
-    const modal = document.getElementById('modal-escape');
-    if (modal && modal.classList.contains('open')) {
-      this.closeEscapeMenu();
-    } else {
-      this.openEscapeMenu();
-    }
-  }
-
-  switchEscTab(tabId) {
-    this.activeEscTab = tabId;
-    document.querySelectorAll('.esc-tab').forEach(t => {
-      t.classList.toggle('active', t.dataset.tab === tabId);
-    });
-
-    document.querySelectorAll('.escape-content-body .tab-pane').forEach(p => {
-      p.classList.toggle('active', p.id === tabId);
-    });
-
-    if (tabId === 'tab-avatar-inner') {
-      setTimeout(() => this.drawAvatarPreview(), 50);
-    }
-  }
-
-  /* ========================================================
-     EXPORTADOR DE YAML DO ULTIMATE UI
-     ======================================================== */
-  async loadYamlConfigs() {
     try {
-      const files = ['hud.yml', 'escape_menu.yml', 'avatar_menu.yml', 'home_menu.yml'];
-      for (const f of files) {
-        const res = await fetch(`ultimate_ui_configs/${f}`);
-        if (res.ok) {
-          this.yamlConfigs[f] = await res.text();
-        }
-      }
+      const res = await fetch('ultimate_ui_configs/roblox_menu_project.json');
+      if (res.ok) this.projectFiles['roblox_menu_project.json'] = await res.text();
+
+      const ymlRes = await fetch('ultimate_ui_configs/home_menu.yml');
+      if (ymlRes.ok) this.projectFiles['home_menu.yml'] = await ymlRes.text();
+
+      const avRes = await fetch('ultimate_ui_configs/avatar_menu.yml');
+      if (avRes.ok) this.projectFiles['avatar_menu.yml'] = await ymlRes.text();
+
+      const hudRes = await fetch('ultimate_ui_configs/hud.yml');
+      if (hudRes.ok) this.projectFiles['hud.yml'] = await hudRes.text();
     } catch (e) {
-      console.warn('Carregamento de configs locais:', e);
+      console.warn('Carregamento local:', e);
     }
   }
 
-  showYamlInExporter(filename) {
-    const codeEl = document.getElementById('yaml-code-display');
-    const downloadBtn = document.getElementById('btn-download-yaml');
-    if (!codeEl) return;
+  showFileInModal(filename) {
+    const codeArea = document.getElementById('code-display-area');
+    const downloadBtn = document.getElementById('btn-download-file');
+    if (!codeArea) return;
 
-    const code = this.yamlConfigs[filename] || '# Arquivo de configuração Ultimate UI\nid: ' + filename;
-    codeEl.innerText = code;
+    const content = this.projectFiles[filename] || '# Arquivo ' + filename;
+    codeArea.innerText = content;
 
     if (downloadBtn) {
-      downloadBtn.setAttribute('href', 'data:text/yaml;charset=utf-8,' + encodeURIComponent(code));
+      downloadBtn.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
       downloadBtn.setAttribute('download', filename);
     }
 
-    document.querySelectorAll('.exp-tab').forEach(t => {
+    document.querySelectorAll('.f-tab').forEach(t => {
       t.classList.toggle('active', t.dataset.file === filename);
     });
   }
 
-  openExporterModal() {
-    const modal = document.getElementById('modal-exporter');
+  openExportModal() {
+    const modal = document.getElementById('modal-xqedii');
     if (!modal) return;
     modal.classList.add('open');
-    this.showYamlInExporter('hud.yml');
+    this.showFileInModal('roblox_menu_project.json');
     this.playSound('click');
   }
 
-  closeExporterModal() {
-    const modal = document.getElementById('modal-exporter');
+  closeExportModal() {
+    const modal = document.getElementById('modal-xqedii');
     if (modal) {
       modal.classList.remove('open');
       this.playSound('click');
     }
   }
 
-  /* ========================================================
-     TOAST DE NOTIFICAÇÃO
-     ======================================================== */
+  saveSettings() {
+    const nameInput = document.getElementById('setting-display-name');
+    if (nameInput && nameInput.value) {
+      const newName = nameInput.value.trim();
+      document.getElementById('player-name-text').innerText = newName;
+      document.querySelector('.user-display-name').innerText = newName;
+      this.showToast('Configurações salvas!');
+      this.playSound('equip');
+    }
+  }
+
   showToast(message) {
     const toast = document.getElementById('toast-notify');
     const text = document.getElementById('toast-text');
@@ -1123,300 +910,108 @@ hero_card:
      EVENT LISTENERS & BINDINGS
      ======================================================== */
   bindEvents() {
-    // 1. Botões do Top Bar HUD
-    document.getElementById('hud-btn-menu')?.addEventListener('click', () => {
-      this.toggleEscapeMenu();
-    });
-
-    document.getElementById('hud-btn-chat')?.addEventListener('click', () => {
-      const chat = document.getElementById('chat-overlay');
-      if (chat) {
-        chat.classList.toggle('hidden');
-        this.playSound('click');
-        if (!chat.classList.contains('hidden')) {
-          document.getElementById('chat-input')?.focus();
-        }
-      }
-    });
-
-    document.getElementById('hud-btn-leaderboard')?.addEventListener('click', () => {
-      const lb = document.getElementById('leaderboard-overlay');
-      if (lb) {
-        lb.classList.toggle('hidden');
-        this.playSound('click');
-      }
-    });
-
-    document.getElementById('hud-btn-avatar')?.addEventListener('click', () => {
-      this.openEscapeMenu('tab-avatar-inner');
-    });
-
-    document.getElementById('hud-btn-home')?.addEventListener('click', () => {
-      this.openEscapeMenu('tab-home');
-    });
-
-    document.getElementById('hud-btn-backpack')?.addEventListener('click', () => {
-      const hotbar = document.getElementById('hotbar-container');
-      if (hotbar) {
-        hotbar.style.display = hotbar.style.display === 'none' ? 'flex' : 'none';
-        this.playSound('click');
-        this.showToast(hotbar.style.display === 'none' ? 'Hotbar ocultada' : 'Hotbar visível');
-      }
-    });
-
-    document.getElementById('hud-btn-sound')?.addEventListener('click', () => {
-      this.soundEnabled = !this.soundEnabled;
-      const icon = document.getElementById('sound-icon');
-      if (icon) {
-        icon.style.opacity = this.soundEnabled ? '1' : '0.4';
-      }
-      this.showToast(this.soundEnabled ? 'Sons da interface ativados' : 'Sons desativados');
-    });
-
-    // 2. Chat Input e Envio
-    document.getElementById('btn-close-chat')?.addEventListener('click', () => {
-      document.getElementById('chat-overlay')?.classList.add('hidden');
+    // 1. Alternar Sidebar
+    document.getElementById('btn-toggle-sidebar')?.addEventListener('click', () => {
+      document.getElementById('main-sidebar')?.classList.toggle('collapsed');
       this.playSound('click');
     });
 
-    document.getElementById('btn-close-leaderboard')?.addEventListener('click', () => {
-      document.getElementById('leaderboard-overlay')?.classList.add('hidden');
-      this.playSound('click');
+    // 2. Links Superiores e Sidebar (Navegação SPA)
+    document.querySelectorAll('.nav-link-btn, .sidebar-item[data-view]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const viewId = btn.dataset.view;
+        if (viewId) this.switchView(viewId);
+      });
     });
 
-    document.getElementById('chat-form')?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const input = document.getElementById('chat-input');
-      if (input && input.value) {
-        this.sendChatMessage(input.value);
-        input.value = '';
-      }
+    document.getElementById('btn-goto-avatar')?.addEventListener('click', () => {
+      this.switchView('view-avatar');
     });
 
-    // Abas do chat
-    document.querySelectorAll('.chat-tab').forEach(tab => {
+    // 3. Barra de Pesquisa em Tempo Real
+    const searchInput = document.getElementById('global-search-input');
+    const clearBtn = document.getElementById('btn-clear-search');
+
+    searchInput?.addEventListener('input', (e) => {
+      this.searchQuery = e.target.value.trim();
+      if (clearBtn) clearBtn.style.display = this.searchQuery ? 'block' : 'none';
+      this.renderRecommendedGames();
+    });
+
+    clearBtn?.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      this.searchQuery = '';
+      clearBtn.style.display = 'none';
+      this.renderRecommendedGames();
+    });
+
+    // 4. Filtro de Categorias na Home
+    document.querySelectorAll('#home-filter-tags .filter-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('#home-filter-tags .filter-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        this.selectedCategory = pill.dataset.filter;
+        this.renderRecommendedGames();
+        this.playSound('click');
+      });
+    });
+
+    // 5. Abas do Studio de Avatar
+    document.querySelectorAll('.studio-tabs .studio-tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        document.querySelectorAll('.chat-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.studio-tabs .studio-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        this.currentChatChannel = tab.dataset.channel;
+        const target = tab.dataset.subtab;
+        document.querySelectorAll('.studio-tab-content .studio-pane').forEach(p => {
+          p.classList.toggle('active', p.id === target.replace('tab-', 'pane-'));
+        });
         this.playSound('click');
       });
     });
 
-    // 3. Controles de Simulação (Fundo, Dano, Cura, YAML)
-    document.getElementById('btn-toggle-bg')?.addEventListener('click', () => {
-      const viewport = document.getElementById('game-viewport');
-      if (viewport) {
-        viewport.classList.toggle('dark-flat');
-        this.playSound('click');
-        this.showToast(viewport.classList.contains('dark-flat') ? 'Modo de fundo plano escuro ativado' : 'Cenário 3D Minecraft ativado');
-      }
+    // 6. Botão de Exportar para xqedii.dev
+    document.getElementById('btn-open-xqedii-export')?.addEventListener('click', () => {
+      this.openExportModal();
     });
 
-    document.getElementById('btn-damage')?.addEventListener('click', () => {
-      this.playSound('damage');
-      this.setHealth(this.health - 20);
+    document.getElementById('btn-close-xqedii')?.addEventListener('click', () => {
+      this.closeExportModal();
     });
 
-    document.getElementById('btn-heal')?.addEventListener('click', () => {
-      this.playSound('heal');
-      this.setHealth(this.health + 20);
-    });
-
-    document.getElementById('btn-open-exporter')?.addEventListener('click', () => {
-      this.openExporterModal();
-    });
-
-    document.getElementById('btn-close-exporter')?.addEventListener('click', () => {
-      this.closeExporterModal();
-    });
-
-    document.querySelectorAll('.exp-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        this.showYamlInExporter(tab.dataset.file);
+    document.querySelectorAll('.f-tab').forEach(t => {
+      t.addEventListener('click', () => {
+        this.showFileInModal(t.dataset.file);
         this.playSound('click');
       });
     });
 
-    document.getElementById('btn-copy-yaml')?.addEventListener('click', () => {
-      const code = document.getElementById('yaml-code-display')?.innerText;
+    document.getElementById('btn-copy-code')?.addEventListener('click', () => {
+      const code = document.getElementById('code-display-area')?.innerText;
       if (code) {
         navigator.clipboard.writeText(code).then(() => {
-          this.showToast('Código YAML copiado para a área de transferência!');
+          this.showToast('Código do projeto copiado para a área de transferência!');
           this.playSound('pop');
         });
       }
     });
 
-    // 4. Abas do Menu ESC
-    document.querySelectorAll('.esc-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        this.switchEscTab(tab.dataset.tab);
-        this.playSound('click');
-      });
-    });
-
-    document.getElementById('btn-close-escape')?.addEventListener('click', () => {
-      this.closeEscapeMenu();
-    });
-
-    document.getElementById('home-resume-btn')?.addEventListener('click', () => {
-      this.closeEscapeMenu();
-    });
-
-    document.getElementById('home-open-avatar-btn')?.addEventListener('click', () => {
-      this.switchEscTab('tab-avatar-inner');
-      this.playSound('click');
-    });
-
-    // Subabas do Avatar
-    document.querySelectorAll('.avatar-subtabs .subtab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.avatar-subtabs .subtab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const target = tab.dataset.subtab;
-        document.querySelectorAll('.avatar-options-col .subtab-pane').forEach(p => {
-          p.classList.toggle('active', p.id === target);
-        });
-        this.playSound('click');
-      });
-    });
-
-    // 5. Configurações estilo Roblox
-    // Volume Slider
-    document.getElementById('slider-volume')?.addEventListener('input', (e) => {
-      document.getElementById('val-volume').innerText = `${e.target.value}%`;
-    });
-
-    // Qualidade Gráfica (10 bolinhas)
-    document.querySelectorAll('#graphics-dots .dot').forEach(dot => {
-      dot.addEventListener('click', () => {
-        const level = parseInt(dot.dataset.level, 10);
-        document.querySelectorAll('#graphics-dots .dot').forEach((d, idx) => {
-          d.classList.toggle('active', idx < level);
-        });
-        document.getElementById('val-graphics').innerText = `${level} / 10`;
-        this.playSound('click');
-      });
-    });
-
-    // FOV Slider
-    document.getElementById('slider-fov')?.addEventListener('input', (e) => {
-      document.getElementById('val-fov').innerText = `${e.target.value}°`;
-    });
-
-    // 6. Rodapé do Menu ESC
-    document.getElementById('btn-footer-resume')?.addEventListener('click', () => {
-      this.closeEscapeMenu();
-    });
-
-    document.getElementById('btn-footer-reset')?.addEventListener('click', () => {
-      document.getElementById('dialog-reset')?.classList.add('open');
-      this.playSound('click');
-    });
-
-    document.getElementById('btn-cancel-reset')?.addEventListener('click', () => {
-      document.getElementById('dialog-reset')?.classList.remove('open');
-      this.playSound('click');
-    });
-
-    document.getElementById('btn-confirm-reset')?.addEventListener('click', () => {
-      document.getElementById('dialog-reset')?.classList.remove('open');
-      this.closeEscapeMenu();
-      this.playSound('damage');
-      this.showToast('Personagem reiniciado no ponto de spawn!');
-      this.setHealth(100);
-    });
-
-    document.getElementById('btn-footer-leave')?.addEventListener('click', () => {
-      this.showToast('Desconectando do servidor... Redirecionando ao Lobby.');
-      this.playSound('click');
-      setTimeout(() => {
-        this.closeEscapeMenu();
-      }, 1000);
-    });
-
-    // 7. Atalhos de Teclado (ESC, TAB, T, 1-9)
-    window.addEventListener('keydown', (e) => {
-      // Se estiver digitando no input do chat, ignora atalhos de jogo
-      if (document.activeElement === document.getElementById('chat-input')) {
-        if (e.key === 'Escape') {
-          document.getElementById('chat-input').blur();
-        }
-        return;
-      }
-
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        this.toggleEscapeMenu();
-      } else if (e.key === 'Tab') {
-        e.preventDefault();
-        const lb = document.getElementById('leaderboard-overlay');
-        if (lb) lb.classList.toggle('hidden');
-      } else if (e.key === 't' || e.key === 'T') {
-        e.preventDefault();
-        const chat = document.getElementById('chat-overlay');
-        if (chat) {
-          chat.classList.remove('hidden');
-          document.getElementById('chat-input')?.focus();
-        }
-      } else if (e.key >= '1' && e.key <= '9') {
-        const slotIdx = parseInt(e.key, 10) - 1;
-        this.selectSlot(slotIdx);
-      }
-    });
-
-    // Controles Mobile Virtuais (Touch Joystick & Botões)
-    const dpad = document.getElementById('virtual-dpad');
-    const stick = dpad?.querySelector('.dpad-stick');
-    if (dpad && stick) {
-      let isDraggingDpad = false;
-      const handleDpad = (clientX, clientY) => {
-        const rect = dpad.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const dx = clientX - centerX;
-        const dy = clientY - centerY;
-        const dist = Math.min(28, Math.hypot(dx, dy));
-        const angle = Math.atan2(dy, dx);
-        const stickX = Math.cos(angle) * dist;
-        const stickY = Math.sin(angle) * dist;
-        stick.style.transform = `translate(${stickX}px, ${stickY}px)`;
-      };
-
-      dpad.addEventListener('touchstart', (e) => {
-        isDraggingDpad = true;
-        if (e.touches[0]) handleDpad(e.touches[0].clientX, e.touches[0].clientY);
-      }, { passive: true });
-
-      window.addEventListener('touchmove', (e) => {
-        if (isDraggingDpad && e.touches[0]) {
-          handleDpad(e.touches[0].clientX, e.touches[0].clientY);
-        }
-      }, { passive: true });
-
-      window.addEventListener('touchend', () => {
-        if (isDraggingDpad) {
-          isDraggingDpad = false;
-          stick.style.transform = 'translate(0px, 0px)';
-        }
-      });
-    }
-
-    document.getElementById('mobile-jump-btn')?.addEventListener('click', () => {
+    // 7. Notificações e Configurações Rápidas
+    document.getElementById('btn-notifications')?.addEventListener('click', () => {
+      this.showToast('Você tem 3 novos convites de amigos pendentes!');
       this.playSound('pop');
-      this.showToast('Pulo executado!');
     });
 
-    document.getElementById('mobile-interact-btn')?.addEventListener('click', () => {
-      this.playSound('click');
-      const activeItem = this.hotbarItems[this.activeSlot];
-      this.showToast(`Usou: ${activeItem.name}!`);
+    document.getElementById('btn-quick-settings')?.addEventListener('click', () => {
+      this.switchView('view-settings');
+    });
+
+    document.getElementById('btn-profile-dropdown')?.addEventListener('click', () => {
+      this.switchView('view-avatar');
     });
   }
 }
 
-// Inicializar quando o DOM estiver pronto
+// Inicializar quando a página carregar
 document.addEventListener('DOMContentLoaded', () => {
-  window.app = new RobloxStyleApp();
+  window.app = new RobloxMainMenuApp();
 });
