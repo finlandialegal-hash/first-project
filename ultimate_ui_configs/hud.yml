@@ -1,0 +1,224 @@
+# ========================================================
+# Ultimate UI - Configuração do HUD estilo Roblox
+# Desenvolvido para o plugin Ultimate UI (Minecraft) e Web Editor
+# Sem logos, marcas ou direitos autorais protegidos
+# ========================================================
+id: "roblox_hud"
+title: ""
+type: "hud"
+enabled: true
+priority: 10
+layout:
+  screen-anchor: "top-left"
+  scale-mode: "adaptive"
+  safe-zone: true
+
+elements:
+  # --- BARRA SUPERIOR ESQUERDA (TOP BAR) ---
+  topbar_pill_background:
+    type: "panel"
+    x: 12
+    y: 12
+    width: 240
+    height: 44
+    border-radius: 12
+    background-color: "#191B1F"
+    opacity: 0.88
+    border:
+      color: "#FFFFFF"
+      width: 1
+      opacity: 0.08
+
+  # Botão Menu Principal (ESC)
+  btn_main_menu:
+    type: "button"
+    x: 18
+    y: 18
+    width: 32
+    height: 32
+    icon: "textures/ui/icons/menu.png"
+    hover_effect: "glow"
+    tooltip: "Menu Principal [ESC]"
+    actions:
+      click:
+        - "ultimateui open escape_menu"
+        - "sound: ui.button.click"
+
+  # Botão Abrir Chat
+  btn_chat:
+    type: "button"
+    x: 58
+    y: 18
+    width: 32
+    height: 32
+    icon: "textures/ui/icons/chat.png"
+    tooltip: "Chat [T]"
+    actions:
+      click:
+        - "ultimateui toggle_hud chat_overlay"
+        - "sound: ui.button.click"
+
+  # Botão Leaderboard / Lista de Jogadores
+  btn_playerlist:
+    type: "button"
+    x: 98
+    y: 18
+    width: 32
+    height: 32
+    icon: "textures/ui/icons/leaderboard.png"
+    tooltip: "Jogadores [TAB]"
+    actions:
+      click:
+        - "ultimateui toggle_hud player_list"
+        - "sound: ui.button.click"
+
+  # Botão Menu de Avatar
+  btn_avatar_customizer:
+    type: "button"
+    x: 138
+    y: 18
+    width: 32
+    height: 32
+    icon: "textures/ui/icons/avatar.png"
+    tooltip: "Personalizar Avatar"
+    actions:
+      click:
+        - "ultimateui open avatar_menu"
+        - "sound: ui.button.click"
+
+  # Botão Mochila / Inventário
+  btn_backpack:
+    type: "button"
+    x: 178
+    y: 18
+    width: 32
+    height: 32
+    icon: "textures/ui/icons/backpack.png"
+    tooltip: "Inventário / Mochila [E]"
+    actions:
+      click:
+        - "ultimateui toggle_hud hotbar_expanded"
+        - "sound: ui.button.click"
+
+  # Botão Menu Início (Home)
+  btn_home_menu:
+    type: "button"
+    x: 218
+    y: 18
+    width: 32
+    height: 32
+    icon: "textures/ui/icons/home.png"
+    tooltip: "Menu de Início"
+    actions:
+      click:
+        - "ultimateui open home_menu"
+        - "sound: ui.button.click"
+
+  # --- BARRA SUPERIOR DIREITA (STATUS & STATS) ---
+  stats_container:
+    type: "panel"
+    x: "calc(100% - 320)"
+    y: 12
+    width: 308
+    height: 44
+    border-radius: 12
+    background-color: "#191B1F"
+    opacity: 0.88
+    border:
+      color: "#FFFFFF"
+      width: 1
+      opacity: 0.08
+
+  # Barra de Vida do Jogador (Health Bar)
+  health_bar_bg:
+    type: "panel"
+    x: "calc(100% - 310)"
+    y: 20
+    width: 130
+    height: 12
+    border-radius: 6
+    background-color: "#2C2F36"
+
+  health_bar_fill:
+    type: "progress_bar"
+    x: "calc(100% - 310)"
+    y: 20
+    width: 130
+    height: 12
+    border-radius: 6
+    fill_color: "#00E676"
+    placeholder_current: "%player_health%"
+    placeholder_max: "%player_max_health%"
+    smooth_transition: true
+
+  health_label:
+    type: "text"
+    x: "calc(100% - 310)"
+    y: 33
+    font_size: 9
+    color: "#E0E0E0"
+    papi: true
+    text: "%player_health% / %player_max_health% HP"
+
+  # Moedas / Pontos
+  currency_icon:
+    type: "image"
+    x: "calc(100% - 170)"
+    y: 18
+    width: 16
+    height: 16
+    texture: "textures/ui/icons/coin.png"
+
+  currency_text:
+    type: "text"
+    x: "calc(100% - 150)"
+    y: 20
+    font_size: 11
+    color: "#FFD700"
+    papi: true
+    text: "%vault_eco_balance_formatted%"
+
+  # Mini Card do Jogador
+  player_head:
+    type: "player_head"
+    x: "calc(100% - 68)"
+    y: 16
+    size: 20
+    uuid: "%player_uuid%"
+
+  player_name:
+    type: "text"
+    x: "calc(100% - 42)"
+    y: 20
+    font_size: 11
+    color: "#FFFFFF"
+    papi: true
+    text: "%player_name%"
+
+  # --- HOTBAR INFERIOR (1-9 SLOTS COM DESIGN ROBLOX) ---
+  hotbar_container:
+    type: "container"
+    x: "center"
+    y: "calc(100% - 68)"
+    width: 540
+    height: 56
+    align: "center"
+    border-radius: 14
+    background-color: "#191B1F"
+    opacity: 0.90
+    border:
+      color: "#FFFFFF"
+      width: 1
+      opacity: 0.10
+
+  hotbar_slots:
+    type: "slot_group"
+    x: "center"
+    y: "calc(100% - 64)"
+    slot_count: 9
+    slot_width: 48
+    slot_height: 48
+    gap: 8
+    show_keybinds: true
+    keybind_style: "badge_top_left"
+    selection_highlight: "#FFFFFF"
