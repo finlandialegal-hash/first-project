@@ -57,8 +57,119 @@ class RobloxStyleApp {
       { name: 'ShadowMiner', rank: 'member', ping: 75, level: 12 }
     ];
 
-    // Códigos YAML para o Exporter do Ultimate UI
-    this.yamlConfigs = {};
+    // Códigos YAML para o Exporter do Ultimate UI (com defaults embutidos caso fetch seja restrito)
+    this.yamlConfigs = {
+      'hud.yml': `# Ultimate UI - HUD estilo Roblox
+id: "roblox_hud"
+title: ""
+type: "hud"
+enabled: true
+priority: 10
+layout:
+  screen-anchor: "top-left"
+  scale-mode: "adaptive"
+elements:
+  topbar_pill:
+    type: "panel"
+    x: 12
+    y: 12
+    width: 240
+    height: 44
+    border-radius: 12
+    background-color: "#191B1F"
+    opacity: 0.88
+  btn_menu:
+    type: "button"
+    x: 18
+    y: 18
+    width: 32
+    height: 32
+    icon: "textures/ui/icons/menu.png"
+    actions:
+      click: ["ultimateui open escape_menu"]
+  btn_chat:
+    type: "button"
+    x: 58
+    y: 18
+    width: 32
+    height: 32
+    actions:
+      click: ["ultimateui toggle_hud chat_overlay"]
+  btn_avatar:
+    type: "button"
+    x: 138
+    y: 18
+    width: 32
+    height: 32
+    actions:
+      click: ["ultimateui open avatar_menu"]
+  health_bar_fill:
+    type: "progress_bar"
+    x: "calc(100% - 310)"
+    y: 20
+    width: 130
+    height: 12
+    fill_color: "#00E676"
+    placeholder_current: "%player_health%"
+    placeholder_max: "%player_max_health%"`,
+
+      'escape_menu.yml': `# Ultimate UI - Menu ESC estilo Roblox
+id: "escape_menu"
+title: ""
+type: "cursor_menu"
+cursor: true
+blur_background: true
+layout:
+  width: 780
+  height: 520
+  align: "center"
+tabs:
+  - id: "tab_home"
+    name: "Início"
+  - id: "tab_players"
+    name: "Jogadores"
+  - id: "tab_avatar"
+    name: "Avatar"
+  - id: "tab_settings"
+    name: "Configurações"
+  - id: "tab_help"
+    name: "Ajuda"`,
+
+      'avatar_menu.yml': `# Ultimate UI - Menu de Avatar estilo Roblox
+id: "avatar_menu"
+title: ""
+type: "cursor_menu"
+cursor: true
+blur_background: true
+layout:
+  width: 860
+  height: 560
+  align: "center"
+elements:
+  preview_panel:
+    type: "character_view_3d"
+    x: 24
+    y: 72
+    width: 320
+    height: 410
+  skin_palette_grid:
+    type: "color_picker_grid"
+    columns: 6
+    colors: ["#E5A00D", "#E8B88A", "#D29C6E", "#A56A44", "#0D69AC", "#C4281C", "#27462D", "#6B327C"]`,
+
+      'home_menu.yml': `# Ultimate UI - Hub de Modos de Início
+id: "home_menu"
+title: ""
+type: "cursor_menu"
+cursor: true
+layout:
+  width: 900
+  height: 580
+  align: "center"
+hero_card:
+  title: "Modo em Destaque: Sobrevivência RPG"
+  action: "server connect survival_rpg"`
+    };
 
     this.init();
   }
