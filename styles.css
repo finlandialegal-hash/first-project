@@ -480,6 +480,112 @@ body, html {
   margin: 0 auto;
 }
 
+/* BANNER DE DOWNLOAD DIRETO PARA XQEDII EDITOR */
+.uui-download-banner {
+  background: linear-gradient(135deg, #1E1B4B 0%, #172554 100%);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+}
+
+.uui-banner-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.uui-badge-glow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #A5B4FC;
+  background: rgba(99, 102, 241, 0.25);
+  padding: 3px 8px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.uui-banner-left h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.uui-banner-left p {
+  font-size: 13px;
+  color: #C7D2FE;
+  line-height: 1.4;
+  max-width: 600px;
+}
+
+.uui-banner-left code {
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  color: #FDE047;
+}
+
+.uui-banner-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-download-action {
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+}
+
+.btn-download-action.primary {
+  background: #3B82F6;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+.btn-download-action.primary:hover {
+  background: #2563EB;
+  transform: translateY(-1px);
+}
+
+.btn-download-action.secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.btn-download-action.secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-download-action.copy {
+  background: #10B981;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+.btn-download-action.copy:hover {
+  background: #059669;
+}
+
+@media (max-width: 900px) {
+  .uui-download-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 /* BANNER DE SAUDAÇÃO */
 .user-greeting-banner {
   background: linear-gradient(135deg, #1A1F2B 0%, #11141B 100%);

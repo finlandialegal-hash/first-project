@@ -969,6 +969,17 @@ class RobloxMainMenuApp {
       });
     });
 
+    // Copiar YAML direto pelo botão no banner
+    document.getElementById('btn-copy-main-yaml')?.addEventListener('click', () => {
+      const code = this.projectFiles['roblox_main_menu.yml'];
+      if (code) {
+        navigator.clipboard.writeText(code).then(() => {
+          this.showToast('roblox_main_menu.yml copiado com sucesso!');
+          this.playSound('pop');
+        });
+      }
+    });
+
     // 6. Botão de Exportar para xqedii.dev
     document.getElementById('btn-open-xqedii-export')?.addEventListener('click', () => {
       this.openExportModal();
