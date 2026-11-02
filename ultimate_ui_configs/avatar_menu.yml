@@ -1,0 +1,165 @@
+# ========================================================
+# Ultimate UI - Menu de Avatar estilo Roblox
+# Visualizador de Personagem + Paleta de Cores + Roupas + Emotes
+# ========================================================
+id: "avatar_menu"
+title: ""
+type: "cursor_menu"
+cursor: true
+blur_background: true
+animation: "slide_up"
+layout:
+  width: 860
+  height: 560
+  align: "center"
+  background_color: "#16181D"
+  opacity: 0.96
+  border_radius: 16
+  border:
+    color: "#FFFFFF"
+    width: 1
+    opacity: 0.08
+
+header:
+  x: 0
+  y: 0
+  width: 860
+  height: 56
+  background_color: "#1F2228"
+  border_radius_top: 16
+  title_text: "Personalizar Avatar"
+  btn_close:
+    type: "close_button"
+    x: 816
+    y: 14
+    width: 28
+    height: 28
+
+content:
+  # LADO ESQUERDO: PREVIEW 3D DO PERSONAGEM (RENDER BLOCKY / MINECRAFT SKIN)
+  preview_panel:
+    type: "character_view_3d"
+    x: 24
+    y: 72
+    width: 320
+    height: 410
+    background_color: "#111317"
+    border_radius: 12
+    rotate_on_drag: true
+    zoom_enabled: true
+    render_scale: 1.0
+
+  preview_controls:
+    btn_rotate_left:
+      type: "button"
+      x: 36
+      y: 440
+      width: 36
+      height: 36
+      icon: "textures/ui/icons/rotate_left.png"
+      action: "preview:rotate_left"
+    btn_rotate_right:
+      type: "button"
+      x: 78
+      y: 440
+      width: 36
+      height: 36
+      icon: "textures/ui/icons/rotate_right.png"
+      action: "preview:rotate_right"
+    btn_reset_view:
+      type: "button"
+      x: 120
+      y: 440
+      width: 90
+      height: 36
+      text: "Resetar Vista"
+      action: "preview:reset"
+
+  # LADO DIREITO: ABAS DE CUSTOMIZAÇÃO
+  customizer_tabs:
+    x: 360
+    y: 72
+    width: 476
+    height: 40
+    tabs:
+      - id: "cat_skin"
+        name: "Cor da Pele"
+        active: true
+      - id: "cat_hair"
+        name: "Cabelos/Chapéus"
+      - id: "cat_shirts"
+        name: "Camisas"
+      - id: "cat_pants"
+        name: "Calças"
+      - id: "cat_emotes"
+        name: "Emotes"
+
+  # Grid de Seleção (Paleta de Cores estilo Roblox)
+  skin_palette_grid:
+    tab_parent: "cat_skin"
+    x: 360
+    y: 124
+    width: 476
+    height: 360
+    type: "color_picker_grid"
+    columns: 6
+    gap: 10
+    colors:
+      - "#E8B88A" # Classic Light
+      - "#D29C6E" # Tan
+      - "#A56A44" # Medium Brown
+      - "#5C3A21" # Deep Brown
+      - "#E5A00D" # Classic Yellow
+      - "#0D69AC" # Bright Blue
+      - "#C4281C" # Bright Red
+      - "#27462D" # Earth Green
+      - "#6B327C" # Purple
+      - "#F2F3F3" # White
+      - "#635F62" # Medium Stone
+      - "#1B2A35" # Black
+    on_select:
+      - "avatar set_skin_color {selected_hex}"
+      - "sound: ui.armor.equip"
+
+  # Grid de Itens (Roupas, Chapéus, Emotes)
+  item_catalog_grid:
+    x: 360
+    y: 124
+    width: 476
+    height: 360
+    type: "item_grid"
+    columns: 3
+    card_width: 146
+    card_height: 110
+    card_background: "#1E222A"
+    card_border_radius: 8
+    badge_equipped: "Equipado"
+
+footer:
+  x: 0
+  y: 496
+  width: 860
+  height: 64
+  background_color: "#131518"
+  border_radius_bottom: 16
+  buttons:
+    btn_save:
+      type: "button"
+      x: 690
+      y: 508
+      width: 146
+      height: 40
+      text: "Salvar Avatar"
+      style: "confirm"
+      action:
+        - "avatar save"
+        - "ultimateui close"
+    btn_default:
+      type: "button"
+      x: 520
+      y: 508
+      width: 154
+      height: 40
+      text: "Restaurar Padrão"
+      style: "secondary"
+      action: "avatar reset_defaults"

@@ -1,0 +1,89 @@
+# ========================================================
+# Ultimate UI - Menu de Início (Home / Hub de Modos) estilo Roblox
+# ========================================================
+id: "home_menu"
+title: ""
+type: "cursor_menu"
+cursor: true
+blur_background: true
+animation: "fade_in"
+layout:
+  width: 900
+  height: 580
+  align: "center"
+  background_color: "#16181D"
+  opacity: 0.96
+  border_radius: 16
+  border:
+    color: "#FFFFFF"
+    width: 1
+    opacity: 0.08
+
+header:
+  x: 0
+  y: 0
+  width: 900
+  height: 56
+  background_color: "#1F2228"
+  border_radius_top: 16
+  nav_items:
+    - label: "Descobrir"
+      active: true
+    - label: "Meus Servidores"
+    - label: "Eventos"
+  btn_close:
+    type: "close_button"
+    x: 856
+    y: 14
+    width: 28
+    height: 28
+
+content:
+  hero_card:
+    type: "card"
+    x: 24
+    y: 72
+    width: 852
+    height: 180
+    border_radius: 12
+    background_gradient: ["#3A1C71", "#D76D77", "#FFAF7B"]
+    title: "Modo em Destaque: Sobrevivência RPG"
+    description: "Explore novas dungeons, batalhe contra bosses lendários e suba no ranking!"
+    btn_play:
+      type: "button"
+      x: 44
+      y: 190
+      width: 160
+      height: 40
+      text: "Jogar Agora"
+      action: "server connect survival_rpg"
+
+  game_grid:
+    type: "grid"
+    x: 24
+    y: 270
+    width: 852
+    height: 280
+    columns: 4
+    gap: 16
+    cards:
+      - title: "BedWars 4v4"
+        players: "128 Jogando"
+        rating: "94% Curtidas"
+        icon: "textures/ui/gamemodes/bedwars.png"
+        action: "server connect bedwars"
+      - title: "SkyWars Solo"
+        players: "84 Jogando"
+        rating: "91% Curtidas"
+        icon: "textures/ui/gamemodes/skywars.png"
+        action: "server connect skywars"
+      - title: "RankUP Clássico"
+        players: "210 Jogando"
+        rating: "96% Curtidas"
+        icon: "textures/ui/gamemodes/rankup.png"
+        action: "server connect rankup"
+      - title: "Murder Mystery"
+        players: "95 Jogando"
+        rating: "90% Curtidas"
+        icon: "textures/ui/gamemodes/murder.png"
+        action: "server connect murder"
