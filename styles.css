@@ -1968,36 +1968,137 @@ input:checked + .switch-slider:before {
 }
 
 /* ========================================================
-   RESPONSIVIDADE COMPLETA
+   RESPONSIVIDADE COMPLETA (DESKTOP, TABLET & MOBILE)
    ======================================================== */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .top-bar-left {
+    top: 6px;
+    left: 6px;
+  }
+  .top-bar-right {
+    top: 6px;
+    right: 6px;
+  }
   .pill-bar {
-    padding: 3px 4px;
+    padding: 2px 4px;
+    gap: 1px;
   }
   .pill-btn {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
+  }
+  .pill-btn .svg-icon {
+    width: 15px;
+    height: 15px;
+  }
+  .stats-pill {
+    padding: 3px 6px;
+    gap: 6px;
   }
   .health-container {
-    width: 90px;
+    width: 70px;
   }
-  .hotbar-slots {
-    padding: 4px;
+  .health-text {
+    font-size: 8px;
+  }
+  .stat-item.ping-tag {
+    display: none;
+  }
+  .player-nickname {
+    display: none;
+  }
+  .simulation-controls {
+    bottom: 64px;
+    left: 8px;
     gap: 4px;
   }
+  .sim-btn {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  .hotbar-container {
+    bottom: 8px;
+    width: 100%;
+    padding: 0 4px;
+  }
+  .hotbar-slots {
+    width: 98%;
+    max-width: 420px;
+    padding: 3px;
+    gap: 3px;
+    justify-content: space-between;
+  }
   .slot {
-    width: 38px;
+    flex: 1;
+    min-width: 0;
     height: 38px;
   }
   .slot-icon {
     font-size: 18px;
   }
+  .slot-key {
+    font-size: 8px;
+    top: 2px;
+    left: 2px;
+  }
   .escape-window {
+    width: 100vw;
     height: 100vh;
+    max-width: 100vw;
     max-height: 100vh;
     border-radius: 0;
+    border: none;
+  }
+  .escape-tabs-bar {
+    overflow-x: auto;
+    padding: 0 8px;
+  }
+  .esc-tab {
+    padding: 0 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .escape-content-body {
+    padding: 14px;
+    -webkit-overflow-scrolling: touch;
   }
   .escape-footer {
     grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px 14px;
+  }
+  .footer-btn {
+    padding: 10px;
+    font-size: 12px;
+  }
+  .avatar-editor-layout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .avatar-canvas-box {
+    height: 240px;
+  }
+  .item-selection-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .chat-container {
+    width: calc(100vw - 24px);
+    max-width: 340px;
+  }
+  .leaderboard-container {
+    width: calc(100vw - 24px);
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 400px) {
+  #hud-btn-backpack, #hud-btn-sound {
+    display: none; /* Oculta botões secundários no menor espaço */
+  }
+  .slot {
+    height: 34px;
+  }
+  .slot-icon {
+    font-size: 16px;
   }
 }
