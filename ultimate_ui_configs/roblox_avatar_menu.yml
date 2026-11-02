@@ -1,0 +1,332 @@
+name: "roblox_avatar_menu"
+screen:
+  width: 1280
+  height: 720
+  offsetX: 0
+  offsetY: 20
+  cursor:
+    layer: 100
+    size: 12
+    speed: 1
+    color: "#ffffff"
+behavior:
+  keep-open: true
+
+blocks:
+  # Fundo Escuro
+  - id: "bg_avatar"
+    layer: 1
+    type: "block"
+    color: "#0f1115"
+    position:
+      x: 0
+      y: 0
+    size:
+      width: 1280
+      height: 720
+
+  # Barra Superior
+  - id: "avatar_top_bar"
+    layer: 2
+    type: "block"
+    color: "#181a20"
+    position:
+      x: 0
+      y: 0
+    size:
+      width: 1280
+      height: 56
+
+  - id: "btn_back_home"
+    layer: 3
+    type: "block"
+    color: "#2a2e39"
+    position:
+      x: 20
+      y: 12
+    size:
+      width: 140
+      height: 32
+    actions:
+      - type: "command"
+        value: "uui open roblox_main_menu"
+      - type: "sound"
+        value: "ui.button.click"
+
+  - id: "txt_back_home"
+    layer: 4
+    type: "text"
+    color: "#ffffff"
+    text: "⬅ Voltar ao Início"
+    align: "center"
+    position:
+      x: 20
+      y: 20
+    size:
+      width: 140
+      height: 14
+
+  # Palco 3D do Avatar (Modelo Skin Minecraft 3D)
+  - id: "avatar_stage_bg"
+    layer: 2
+    type: "block"
+    color: "#181d26"
+    position:
+      x: 40
+      y: 80
+    size:
+      width: 440
+      height: 580
+
+  - id: "player_3d_avatar"
+    layer: 3
+    type: "skin"
+    skin: "%player%"
+    color: "#ffffff"
+    position:
+      x: 60
+      y: 120
+    size:
+      width: 400
+      height: 480
+    spin:
+      spinning: true
+      spin-speed: 80
+      mouse: true
+      up-down: true
+      unlimited-rot: true
+
+  # Painel de Customização à Direita
+  - id: "customizer_panel_bg"
+    layer: 2
+    type: "block"
+    color: "#181d26"
+    position:
+      x: 510
+      y: 80
+    size:
+      width: 730
+      height: 580
+
+  - id: "txt_palette_title"
+    layer: 3
+    type: "text"
+    color: "#ffffff"
+    text: "Paleta de Cores de Pele (Estilo Roblox)"
+    align: "left"
+    position:
+      x: 530
+      y: 100
+    size:
+      width: 400
+      height: 18
+
+  # Cores da Paleta
+  - id: "swatch_yellow"
+    layer: 4
+    type: "block"
+    color: "#e5a00d"
+    position:
+      x: 530
+      y: 140
+    size:
+      width: 60
+      height: 60
+    actions:
+      - type: "command"
+        value: "avatar skin color #e5a00d"
+
+  - id: "swatch_tan"
+    layer: 4
+    type: "block"
+    color: "#e8b88a"
+    position:
+      x: 610
+      y: 140
+    size:
+      width: 60
+      height: 60
+    actions:
+      - type: "command"
+        value: "avatar skin color #e8b88a"
+
+  - id: "swatch_brown"
+    layer: 4
+    type: "block"
+    color: "#a56a44"
+    position:
+      x: 690
+      y: 140
+    size:
+      width: 60
+      height: 60
+    actions:
+      - type: "command"
+        value: "avatar skin color #a56a44"
+
+  - id: "swatch_blue"
+    layer: 4
+    type: "block"
+    color: "#0d69ac"
+    position:
+      x: 770
+      y: 140
+    size:
+      width: 60
+      height: 60
+    actions:
+      - type: "command"
+        value: "avatar skin color #0d69ac"
+
+  - id: "swatch_red"
+    layer: 4
+    type: "block"
+    color: "#c4281c"
+    position:
+      x: 850
+      y: 140
+    size:
+      width: 60
+      height: 60
+    actions:
+      - type: "command"
+        value: "avatar skin color #c4281c"
+
+  - id: "swatch_green"
+    layer: 4
+    type: "block"
+    color: "#27462d"
+    position:
+      x: 930
+      y: 140
+    size:
+      width: 60
+      height: 60
+    actions:
+      - type: "command"
+        value: "avatar skin color #27462d"
+
+  # Roupas e Itens
+  - id: "txt_clothes_title"
+    layer: 3
+    type: "text"
+    color: "#ffffff"
+    text: "Roupas e Trajes"
+    align: "left"
+    position:
+      x: 530
+      y: 230
+    size:
+      width: 400
+      height: 18
+
+  - id: "item_shirt_casual"
+    layer: 4
+    type: "block"
+    color: "#232731"
+    position:
+      x: 530
+      y: 260
+    size:
+      width: 140
+      height: 80
+    actions:
+      - type: "command"
+        value: "avatar equip shirt_casual"
+
+  - id: "txt_shirt_casual"
+    layer: 5
+    type: "text"
+    color: "#ffffff"
+    text: "👕 Casual Azul"
+    align: "center"
+    position:
+      x: 530
+      y: 290
+    size:
+      width: 140
+      height: 14
+
+  - id: "item_shirt_suit"
+    layer: 4
+    type: "block"
+    color: "#232731"
+    position:
+      x: 690
+      y: 260
+    size:
+      width: 140
+      height: 80
+    actions:
+      - type: "command"
+        value: "avatar equip shirt_suit"
+
+  - id: "txt_shirt_suit"
+    layer: 5
+    type: "text"
+    color: "#ffffff"
+    text: "👔 Terno Executivo"
+    align: "center"
+    position:
+      x: 690
+      y: 290
+    size:
+      width: 140
+      height: 14
+
+  - id: "item_shirt_hoodie"
+    layer: 4
+    type: "block"
+    color: "#232731"
+    position:
+      x: 850
+      y: 260
+    size:
+      width: 140
+      height: 80
+    actions:
+      - type: "command"
+        value: "avatar equip shirt_hoodie"
+
+  - id: "txt_shirt_hoodie"
+    layer: 5
+    type: "text"
+    color: "#ffffff"
+    text: "🧥 Moletom Vermelho"
+    align: "center"
+    position:
+      x: 850
+      y: 290
+    size:
+      width: 140
+      height: 14
+
+  # Botão Salvar
+  - id: "btn_save_avatar"
+    layer: 4
+    type: "block"
+    color: "#00e676"
+    position:
+      x: 1040
+      y: 590
+    size:
+      width: 180
+      height: 46
+    actions:
+      - type: "command"
+        value: "avatar save"
+      - type: "sound"
+        value: "entity.player.levelup"
+
+  - id: "txt_save_avatar"
+    layer: 5
+    type: "text"
+    color: "#000000"
+    text: "Salvar Avatar"
+    align: "center"
+    position:
+      x: 1040
+      y: 604
+    size:
+      width: 180
+      height: 16
