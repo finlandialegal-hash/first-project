@@ -1,0 +1,638 @@
+name: "roblox_main_menu"
+screen:
+  width: 1280
+  height: 720
+  offsetX: 0
+  offsetY: 20
+  cursor:
+    layer: 100
+    size: 12
+    speed: 1
+    color: "#ffffff"
+  zoom:
+    enabled: false
+behavior:
+  keep-open: true
+  close-on-death: true
+  close-on-damage: false
+
+blocks:
+  # Fundo Escuro
+  - id: "bg_main"
+    layer: 1
+    type: "block"
+    color: "#0f1115"
+    position:
+      x: 0
+      y: 0
+    size:
+      width: 1280
+      height: 720
+
+  # Barra Superior (Top Navigation)
+  - id: "top_nav_bar"
+    layer: 2
+    type: "block"
+    color: "#181a20"
+    position:
+      x: 0
+      y: 0
+    size:
+      width: 1280
+      height: 56
+
+  # Logo Placeholder Neutro
+  - id: "logo_shape"
+    layer: 3
+    type: "block"
+    color: "#3b82f6"
+    rotation: 45
+    position:
+      x: 24
+      y: 16
+    size:
+      width: 24
+      height: 24
+
+  # Botão Início
+  - id: "btn_nav_home"
+    layer: 3
+    type: "block"
+    color: "#2a2e39"
+    position:
+      x: 70
+      y: 12
+    size:
+      width: 80
+      height: 32
+    actions:
+      - type: "command"
+        value: "uui open roblox_main_menu"
+      - type: "sound"
+        value: "ui.button.click"
+
+  - id: "txt_nav_home"
+    layer: 4
+    type: "text"
+    color: "#ffffff"
+    text: "Início"
+    align: "center"
+    position:
+      x: 70
+      y: 20
+    size:
+      width: 80
+      height: 14
+
+  # Botão Descobrir
+  - id: "btn_nav_discover"
+    layer: 3
+    type: "block"
+    color: "#181a20"
+    position:
+      x: 156
+      y: 12
+    size:
+      width: 90
+      height: 32
+    actions:
+      - type: "command"
+        value: "uui open roblox_discover_menu"
+      - type: "sound"
+        value: "ui.button.click"
+
+  - id: "txt_nav_discover"
+    layer: 4
+    type: "text"
+    color: "#9da3ae"
+    text: "Descobrir"
+    align: "center"
+    position:
+      x: 156
+      y: 20
+    size:
+      width: 90
+      height: 14
+
+  # Botão Avatar
+  - id: "btn_nav_avatar"
+    layer: 3
+    type: "block"
+    color: "#181a20"
+    position:
+      x: 252
+      y: 12
+    size:
+      width: 80
+      height: 32
+    actions:
+      - type: "command"
+        value: "uui open roblox_avatar_menu"
+      - type: "sound"
+        value: "ui.button.click"
+
+  - id: "txt_nav_avatar"
+    layer: 4
+    type: "text"
+    color: "#9da3ae"
+    text: "Avatar"
+    align: "center"
+    position:
+      x: 252
+      y: 20
+    size:
+      width: 80
+      height: 14
+
+  # Barra de Pesquisa
+  - id: "search_bar_bg"
+    layer: 3
+    type: "input"
+    color: "#232731"
+    position:
+      x: 400
+      y: 12
+    size:
+      width: 380
+      height: 32
+    input:
+      placeholder: "Pesquisar experiências, amigos..."
+      color: "#ffffff"
+
+  # Moedas
+  - id: "coins_pill_bg"
+    layer: 3
+    type: "block"
+    color: "#232731"
+    position:
+      x: 1040
+      y: 12
+    size:
+      width: 100
+      height: 32
+
+  - id: "coins_txt"
+    layer: 4
+    type: "text"
+    color: "#ffc107"
+    text: "$ %vault_eco_balance_formatted%"
+    align: "center"
+    position:
+      x: 1040
+      y: 20
+    size:
+      width: 100
+      height: 14
+
+  # Mini Avatar
+  - id: "player_profile_mini"
+    layer: 3
+    type: "skin"
+    skin: "%player%"
+    color: "#ffffff"
+    position:
+      x: 1150
+      y: 12
+    size:
+      width: 32
+      height: 32
+    parts:
+      head: { rotation: { x: 0, y: 0, z: 0 } }
+    spin:
+      spinning: false
+
+  - id: "player_name_mini"
+    layer: 4
+    type: "text"
+    color: "#ffffff"
+    text: "%player_name%"
+    align: "left"
+    position:
+      x: 1190
+      y: 20
+    size:
+      width: 80
+      height: 14
+
+  # Barra Lateral (Sidebar)
+  - id: "sidebar_bg"
+    layer: 2
+    type: "block"
+    color: "#14161b"
+    position:
+      x: 0
+      y: 56
+    size:
+      width: 200
+      height: 664
+
+  - id: "sb_item_home"
+    layer: 3
+    type: "block"
+    color: "#2a2e39"
+    position:
+      x: 10
+      y: 70
+    size:
+      width: 180
+      height: 38
+    actions:
+      - type: "command"
+        value: "uui open roblox_main_menu"
+
+  - id: "sb_txt_home"
+    layer: 4
+    type: "text"
+    color: "#ffffff"
+    text: "🏠 Início"
+    align: "left"
+    position:
+      x: 25
+      y: 82
+    size:
+      width: 150
+      height: 14
+
+  - id: "sb_item_discover"
+    layer: 3
+    type: "block"
+    color: "#14161b"
+    position:
+      x: 10
+      y: 114
+    size:
+      width: 180
+      height: 38
+    actions:
+      - type: "command"
+        value: "uui open roblox_discover_menu"
+
+  - id: "sb_txt_discover"
+    layer: 4
+    type: "text"
+    color: "#9da3ae"
+    text: "🧭 Descobrir"
+    align: "left"
+    position:
+      x: 25
+      y: 126
+    size:
+      width: 150
+      height: 14
+
+  - id: "sb_item_avatar"
+    layer: 3
+    type: "block"
+    color: "#14161b"
+    position:
+      x: 10
+      y: 158
+    size:
+      width: 180
+      height: 38
+    actions:
+      - type: "command"
+        value: "uui open roblox_avatar_menu"
+
+  - id: "sb_txt_avatar"
+    layer: 4
+    type: "text"
+    color: "#9da3ae"
+    text: "👕 Avatar [Editor]"
+    align: "left"
+    position:
+      x: 25
+      y: 170
+    size:
+      width: 150
+      height: 14
+
+  # Banner de Boas-Vindas
+  - id: "welcome_banner_bg"
+    layer: 3
+    type: "block"
+    color: "#1a1f2b"
+    position:
+      x: 220
+      y: 76
+    size:
+      width: 1040
+      height: 110
+
+  - id: "welcome_player_model"
+    layer: 4
+    type: "skin"
+    skin: "%player%"
+    color: "#ffffff"
+    position:
+      x: 240
+      y: 84
+    size:
+      width: 90
+      height: 95
+    spin:
+      spinning: true
+      spin-speed: 60
+      mouse: true
+      up-down: false
+      unlimited-rot: true
+
+  - id: "welcome_txt_greeting"
+    layer: 4
+    type: "text"
+    color: "#ffffff"
+    text: "Olá, %player_name%!"
+    align: "left"
+    position:
+      x: 350
+      y: 95
+    size:
+      width: 400
+      height: 22
+
+  - id: "welcome_txt_sub"
+    layer: 4
+    type: "text"
+    color: "#9da3ae"
+    text: "Continue suas aventuras ou personalize seu avatar."
+    align: "left"
+    position:
+      x: 350
+      y: 125
+    size:
+      width: 400
+      height: 13
+
+  # Botão "Editar Avatar"
+  - id: "btn_banner_avatar"
+    layer: 4
+    type: "block"
+    color: "#2e3340"
+    position:
+      x: 880
+      y: 110
+    size:
+      width: 160
+      height: 42
+    actions:
+      - type: "command"
+        value: "uui open roblox_avatar_menu"
+      - type: "sound"
+        value: "ui.button.click"
+
+  - id: "txt_banner_avatar"
+    layer: 5
+    type: "text"
+    color: "#ffffff"
+    text: "Editar Avatar"
+    align: "center"
+    position:
+      x: 880
+      y: 124
+    size:
+      width: 160
+      height: 14
+
+  # Seção Amigos
+  - id: "sec_friends_title"
+    layer: 3
+    type: "text"
+    color: "#ffffff"
+    text: "Amigos Conectados (Online)"
+    align: "left"
+    position:
+      x: 220
+      y: 206
+    size:
+      width: 300
+      height: 16
+
+  # Amigo 1
+  - id: "friend_1_card"
+    layer: 3
+    type: "block"
+    color: "#1e2129"
+    position:
+      x: 220
+      y: 232
+    size:
+      width: 155
+      height: 60
+
+  - id: "friend_1_name"
+    layer: 4
+    type: "text"
+    color: "#ffffff"
+    text: "Alex_Master"
+    align: "left"
+    position:
+      x: 235
+      y: 242
+    size:
+      width: 130
+      height: 12
+
+  - id: "friend_1_status"
+    layer: 4
+    type: "text"
+    color: "#00e676"
+    text: "● Jogando BedWars"
+    align: "left"
+    position:
+      x: 235
+      y: 262
+    size:
+      width: 130
+      height: 10
+
+  # Seção Continuar Jogando
+  - id: "sec_games_title"
+    layer: 3
+    type: "text"
+    color: "#ffffff"
+    text: "Continuar Jogando"
+    align: "left"
+    position:
+      x: 220
+      y: 310
+    size:
+      width: 300
+      height: 18
+
+  # Jogo 1: BedWars
+  - id: "card_game_1_bg"
+    layer: 3
+    type: "block"
+    color: "#1e2129"
+    position:
+      x: 220
+      y: 340
+    size:
+      width: 240
+      height: 160
+
+  - id: "card_game_1_art"
+    layer: 4
+    type: "block"
+    color: "#991b1b"
+    position:
+      x: 220
+      y: 340
+    size:
+      width: 240
+      height: 95
+
+  - id: "card_game_1_icon"
+    layer: 5
+    type: "item"
+    item: "RED_BED"
+    position:
+      x: 325
+      y: 370
+    size:
+      width: 30
+      height: 30
+
+  - id: "card_game_1_title"
+    layer: 4
+    type: "text"
+    color: "#ffffff"
+    text: "BedWars 4v4"
+    align: "left"
+    position:
+      x: 232
+      y: 444
+    size:
+      width: 160
+      height: 14
+
+  - id: "card_game_1_stats"
+    layer: 4
+    type: "text"
+    color: "#00e676"
+    text: "👍 95%   👥 2.4K"
+    align: "left"
+    position:
+      x: 232
+      y: 468
+    size:
+      width: 160
+      height: 11
+
+  - id: "card_game_1_btn_play"
+    layer: 5
+    type: "block"
+    color: "#00e676"
+    position:
+      x: 412
+      y: 450
+    size:
+      width: 36
+      height: 36
+    actions:
+      - type: "command"
+        value: "server connect bedwars"
+      - type: "sound"
+        value: "entity.player.levelup"
+
+  - id: "card_game_1_btn_txt"
+    layer: 6
+    type: "text"
+    color: "#000000"
+    text: "▶"
+    align: "center"
+    position:
+      x: 412
+      y: 460
+    size:
+      width: 36
+      height: 16
+
+  # Jogo 2: SkyWars
+  - id: "card_game_2_bg"
+    layer: 3
+    type: "block"
+    color: "#1e2129"
+    position:
+      x: 480
+      y: 340
+    size:
+      width: 240
+      height: 160
+
+  - id: "card_game_2_art"
+    layer: 4
+    type: "block"
+    color: "#1d4ed8"
+    position:
+      x: 480
+      y: 340
+    size:
+      width: 240
+      height: 95
+
+  - id: "card_game_2_icon"
+    layer: 5
+    type: "item"
+    item: "DIAMOND_SWORD"
+    position:
+      x: 585
+      y: 370
+    size:
+      width: 30
+      height: 30
+
+  - id: "card_game_2_title"
+    layer: 4
+    type: "text"
+    color: "#ffffff"
+    text: "SkyWars Solo"
+    align: "left"
+    position:
+      x: 492
+      y: 444
+    size:
+      width: 160
+      height: 14
+
+  - id: "card_game_2_stats"
+    layer: 4
+    type: "text"
+    color: "#00e676"
+    text: "👍 92%   👥 890"
+    align: "left"
+    position:
+      x: 492
+      y: 468
+    size:
+      width: 160
+      height: 11
+
+  - id: "card_game_2_btn_play"
+    layer: 5
+    type: "block"
+    color: "#00e676"
+    position:
+      x: 672
+      y: 450
+    size:
+      width: 36
+      height: 36
+    actions:
+      - type: "command"
+        value: "server connect skywars"
+      - type: "sound"
+        value: "entity.player.levelup"
+
+  - id: "card_game_2_btn_txt"
+    layer: 6
+    type: "text"
+    color: "#000000"
+    text: "▶"
+    align: "center"
+    position:
+      x: 672
+      y: 460
+    size:
+      width: 36
+      height: 16
