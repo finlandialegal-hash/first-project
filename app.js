@@ -736,7 +736,7 @@ hero_card:
       });
     }
 
-    // Interação com Mouse para girar o Avatar (Drag)
+    // Interação com Mouse e Touch para girar o Avatar (Drag)
     canvas.addEventListener('mousedown', (e) => {
       this.avatarState.isDragging = true;
       this.avatarState.lastMouseX = e.clientX;
@@ -752,6 +752,27 @@ hero_card:
     });
 
     window.addEventListener('mouseup', () => {
+      this.avatarState.isDragging = false;
+    });
+
+    // Suporte a Touch no celular (iOS / Android)
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        this.avatarState.isDragging = true;
+        this.avatarState.lastMouseX = e.touches[0].clientX;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (this.avatarState.isDragging && e.touches && e.touches.length > 0) {
+        const delta = e.touches[0].clientX - this.avatarState.lastMouseX;
+        this.avatarState.rotation += delta * 0.025;
+        this.avatarState.lastMouseX = e.touches[0].clientX;
+        this.drawAvatarPreview();
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
       this.avatarState.isDragging = false;
     });
 
@@ -1345,7 +1366,43 @@ hero_card:
       }
     });
 
-    // Controles Mobile Virtuais
+    // Controles Mobile Virtuais (Touch Joystick & Botões)
+    const dpad = document.getElementById('virtual-dpad');
+    const stick = dpad?.querySelector('.dpad-stick');
+    if (dpad && stick) {
+      let isDraggingDpad = false;
+      const handleDpad = (clientX, clientY) => {
+        const rect = dpad.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const dx = clientX - centerX;
+        const dy = clientY - centerY;
+        const dist = Math.min(28, Math.hypot(dx, dy));
+        const angle = Math.atan2(dy, dx);
+        const stickX = Math.cos(angle) * dist;
+        const stickY = Math.sin(angle) * dist;
+        stick.style.transform = `translate(${stickX}px, ${stickY}px)`;
+      };
+
+      dpad.addEventListener('touchstart', (e) => {
+        isDraggingDpad = true;
+        if (e.touches[0]) handleDpad(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (isDraggingDpad && e.touches[0]) {
+          handleDpad(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        if (isDraggingDpad) {
+          isDraggingDpad = false;
+          stick.style.transform = 'translate(0px, 0px)';
+        }
+      });
+    }
+
     document.getElementById('mobile-jump-btn')?.addEventListener('click', () => {
       this.playSound('pop');
       this.showToast('Pulo executado!');
